@@ -7,7 +7,7 @@ namespace Rpsls.Models
 {
 	public enum GestureType
 	{
-		Scissor, 
+		Scissors, 
 		Paper, 
 		Rock, 
 		Lizard, 

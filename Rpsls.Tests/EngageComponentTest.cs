@@ -14,7 +14,7 @@ namespace Rpsls.Tests
 		[Fact]
 		public void Scissors_Cut_Paper()
 		{
-			var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissor);
+			var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissors);
 			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Paper);
 
 			PlayerNumber outcome;
@@ -83,7 +83,7 @@ namespace Rpsls.Tests
 		public void Spock_Smashes_Scissors()
 		{
 			var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Spock);
-			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissor);
+			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissors);
 
 		    PlayerNumber outcome;
 
@@ -99,7 +99,7 @@ namespace Rpsls.Tests
 		[Fact]
 		public void Scissors_Decapitate_Lizard()
 		{
-		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissor);
+		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissors);
 			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Lizard);
 
 		    PlayerNumber outcome;
@@ -168,7 +168,7 @@ namespace Rpsls.Tests
 		public void Rock_Crushes_Scissors()
 		{
 		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Rock);
-			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissor);
+			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissors);
 
 		    PlayerNumber outcome;
 
@@ -186,7 +186,7 @@ namespace Rpsls.Tests
 		public void Paper_Cut_By_Scissor()
 		{
 		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Paper);
-			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissor);
+			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissors);
 
 		    PlayerNumber outcome;
 
@@ -253,7 +253,7 @@ namespace Rpsls.Tests
 		[Fact]
 		public void Scissors_Smashed_By_Spock()
 		{
-		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissor);
+		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissors);
 			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Spock);
 
 		    PlayerNumber outcome;
@@ -271,7 +271,7 @@ namespace Rpsls.Tests
 		public void Lizard_Decapitated_By_Scissors()
 		{
 		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Lizard);
-			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissor);
+			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissors);
 
 		    PlayerNumber outcome;
 
@@ -338,7 +338,7 @@ namespace Rpsls.Tests
 		[Fact]
 		public void Scissors_Crushed_By_Rock()
 		{
-		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissor);
+		    var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissors);
 			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Rock);
 
 		    PlayerNumber outcome;
@@ -355,8 +355,8 @@ namespace Rpsls.Tests
 		[Fact]
 		public void Tie()
 		{
-			var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissor);
-			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissor);
+			var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Scissors);
+			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissors);
 
 		    PlayerNumber outcome;
 
@@ -372,7 +372,7 @@ namespace Rpsls.Tests
 		public void Not_Implemented()
 		{
 			var playerOne = new Player(PlayerNumber.PlayerOne, GestureType.Empty);
-			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissor);
+			var playerTwo = new Player(PlayerNumber.PlayerTwo, GestureType.Scissors);
 
 		    PlayerNumber outcome;
 

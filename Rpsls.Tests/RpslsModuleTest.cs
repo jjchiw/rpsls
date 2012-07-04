@@ -26,21 +26,6 @@ namespace Rpsls.Tests
 		}
 
 		[Fact]
-		public void GameTest()
-		{
-			var result = new Browser(new DefaultNancyBootstrapper()).Post(
-				"/game",
-				with =>
-				{
-					with.FormValue("gesture", "Scissor"); //Scissor
-				}
-				);
-
-			Assert.Equal(result.Body.AsString(), "Tie");
-			Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-		}
-
-		[Fact]
 		public void GameNotImplemetedTest()
 		{
 			var result = new Browser(new DefaultNancyBootstrapper()).Post(
@@ -61,7 +46,7 @@ namespace Rpsls.Tests
 				"/gameWinnerPlayerOne",
 				with =>
 				{
-					with.FormValue("gesture", "Scissor"); //Scissor
+					with.FormValue("gesture", "Scissors"); //Scissor
 				}
 				);
 
@@ -76,7 +61,7 @@ namespace Rpsls.Tests
 				"/gameWinnerPlayerTwo",
 				with =>
 				{
-					with.FormValue("gesture", "Scissor"); //Scissor
+					with.FormValue("gesture", "Scissors"); //Scissor
 				}
 				);
 
@@ -88,32 +73,8 @@ namespace Rpsls.Tests
 		{
 			public RootModule()
 			{
-				Get["/"] = Root;
-				Post["/game"] = Game;
 				Post["/gameWinnerPlayerOne"] = GameWinnerPlayerOne;
 				Post["/gameWinnerPlayerTwo"] = GameWinnerPlayerTwo;
-			}
-
-			private Response Game(dynamic o)
-			{
-				GestureType outcome;
-				Console.WriteLine((Request.Form.gesture as string));
-				var parsed = Enum.TryParse<GestureType>(Request.Form.gesture.Value, out outcome);
-				if (!parsed)
-					return HttpStatusCode.NotImplemented;
-
-				var eng = new EngageComponent();
-
-				var p = new Player(PlayerNumber.PlayerOne, outcome);
-				var p2 = new Player(PlayerNumber.PlayerTwo, GestureType.Scissor);
-
-				PlayerNumber winner;
-				var fought = eng.TryEngage(p, p2, out winner);
-
-				if (!fought)
-					return Response.AsText("Tie");
-
-				return Response.AsText("Winner " + winner);
 			}
 
 			private Response GameWinnerPlayerOne(dynamic o)

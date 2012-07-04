@@ -16,9 +16,9 @@ namespace Rpsls.Components
 			{
 				{GestureType.Lizard , new List<GestureType>{GestureType.Spock, GestureType.Paper}},
 				{GestureType.Paper , new List<GestureType>{GestureType.Rock, GestureType.Spock}},
-				{GestureType.Rock , new List<GestureType>{GestureType.Lizard, GestureType.Scissor}},
-				{GestureType.Scissor , new List<GestureType>{GestureType.Paper, GestureType.Lizard}},
-				{GestureType.Spock , new List<GestureType>{GestureType.Scissor, GestureType.Rock}},
+				{GestureType.Rock , new List<GestureType>{GestureType.Lizard, GestureType.Scissors}},
+				{GestureType.Scissors , new List<GestureType>{GestureType.Paper, GestureType.Lizard}},
+				{GestureType.Spock , new List<GestureType>{GestureType.Scissors, GestureType.Rock}},
 			};
 		}
 
