@@ -11,10 +11,10 @@ namespace Rpsls.Models
 		{
 			Number = number;
 			GType = GestureType.Lizard;
-			WinTo = new List<GestureType>
-			{
-				GestureType.Spock, GestureType.Paper
-			};
+				WinTo = new List<GestureType>
+				{
+					GestureType.Spock, GestureType.Paper
+				};
 		}
 	}
 }

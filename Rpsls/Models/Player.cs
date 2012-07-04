@@ -6,15 +6,16 @@ using Rpsls.Components;
 
 namespace Rpsls.Models
 {
-	public abstract class Player
+	public class Player
 	{
+		public Player(PlayerNumber number, GestureType gType)
+		{
+			GType = gType;
+			Number = number;
+		}
+
 		public GestureType GType { get; set; }
 		public PlayerNumber Number { get; set; }
 		protected IList<GestureType> WinTo { get; set; }
-
-		public bool WinsOver(Player player)
-		{
-			return WinTo.Any(x => x == player.GType);
-		}
 	}
 }

@@ -63,12 +63,7 @@
     <Compile Include="Components\EngageComponent.cs" />
     <Compile Include="Models\GestureType.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\Lizard.cs" />
-    <Compile Include="Models\Paper.cs" />
     <Compile Include="Models\PlayerNumber.cs" />
-    <Compile Include="Models\Rock.cs" />
-    <Compile Include="Models\Scissor.cs" />
-    <Compile Include="Models\Spock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
