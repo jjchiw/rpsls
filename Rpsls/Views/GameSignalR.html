@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Rock, Paper, Scissors, Lizard, Spock</title>
+
+	<script type="text/javascript" src="Content/Scripts/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="Content/Scripts/jquery.signalR-0.5.2.js"></script>
+    <script src="/signalr/hubs" type="text/javascript"></script>
+	<link href="Content/Css/simplecssgrid-960.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    Hi! @Model.Name
+
+	<div class="grid">
+        <div class="grid-1-3">
+            <img id="player-one" src="Content/Images/rock.png" />
+        </div>
+        <div class="grid-1-3">
+            <img src="Content/Images/versus.png" />
+        </div>
+        <div class="grid-1-3">
+            <img id="player-two" src="Content/Images/scissors.png" />
+        </div>
+    </div>
+
+<ul>
+	<li><a href="#" id="select-Rock"><img src="Content/Images/rock_thumb.png" /></a></a></li>
+	<li><a href="#" id="select-Paper"><img src="Content/Images/paper_thumb.png" /></a></li>
+	<li><a href="#" id="select-Scissors"><img src="Content/Images/scissors_thumb.png" /></a></li>
+	<li><a href="#" id="select-Lizard"><img src="Content/Images/lizard_thumb.png" /></a></li>
+	<li><a href="#" id="select-Spock"><img src="Content/Images/spock_thumb.png" /></a></li>
+</ul>
+
+<p id="result">
+</p>
+
+<script language="javascript" type="text/javascript">
+    $(function () {
+        var rpslsHubClient = $.connection.rpslsHub;
+
+        $("a[id^='select-']").live('click', function () {
+            var gestureType = $(this).attr("id").replace("select-", "");
+
+            $("#player-one").attr("src", "Content/Images/" + gestureType + ".png");
+
+            var url = "/game";
+
+            rpslsHubClient.sendMoveServer(gestureType);
+
+            return false;
+        });
+
+        // Start the connection
+        $.connection.hub.start(function () {
+            rpslsHubClient.join('@Model.Name');
+        });
+
+        // Receive a new message from the server
+        rpslsHubClient.addMessage = function (legend, gesture) {
+            $("#result").html(legend);
+
+            $("#player-two").attr("src", "Content/Images/" + gesture + ".png");
+        };
+    });
+</script>
+
+</body>
+</html>

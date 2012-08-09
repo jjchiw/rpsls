@@ -5,6 +5,7 @@ using System.Web;
 using Nancy;
 using Rpsls.Models;
 using Rpsls.Components;
+using System.Dynamic;
 
 namespace Rpsls.Modules
 {
@@ -14,6 +15,21 @@ namespace Rpsls.Modules
 		{
 			Get["/"] = Root;
 			Post["/game"] = Game;
+			Get["/gsignalr"] = SignalRHome;
+			Post["/playasync"] = PlaySignalR;
+		}
+
+		private Response PlaySignalR(dynamic o)
+		{
+			dynamic m = new ExpandoObject();
+			m.Name = Request.Form.name.Value as string;
+
+			return View["GameSignalR", m];
+		}
+
+		private Response SignalRHome(dynamic o)
+		{
+			return View["IndexSignalR"];
 		}
 
 		private Response Game(dynamic o)
