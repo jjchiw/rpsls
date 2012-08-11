@@ -14,12 +14,13 @@ namespace Rpsls.Modules
 		public RootModule()
 		{
 			Get["/"] = Root;
+			Get["/index-game"] = IndexComputer;
 			Post["/game"] = Game;
-			Get["/gsignalr"] = SignalRHome;
-			Post["/playasync"] = PlaySignalR;
+			Get["/index-asyncgame"] = IndexAsyncGame;
+			Post["/asyncgame"] = AsyncGame;
 		}
 
-		private Response PlaySignalR(dynamic o)
+		private Response AsyncGame(dynamic o)
 		{
 			dynamic m = new ExpandoObject();
 			m.Name = Request.Form.name.Value as string;
@@ -27,7 +28,7 @@ namespace Rpsls.Modules
 			return View["GameSignalR", m];
 		}
 
-		private Response SignalRHome(dynamic o)
+		private Response IndexAsyncGame(dynamic o)
 		{
 			return View["IndexSignalR"];
 		}
@@ -68,6 +69,11 @@ namespace Rpsls.Modules
 		private Response Root(dynamic o)
 		{
 			return View["Index"];
+		}
+
+		private Response IndexComputer(dynamic o)
+		{
+			return View["IndexComputer"];
 		}
 	}
 

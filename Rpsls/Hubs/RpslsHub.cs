@@ -6,6 +6,7 @@ using SignalR.Hubs;
 using Rpsls.Models;
 using Rpsls.Components;
 using Rpsls.Modules;
+using Rpsls.Helpers;
 
 namespace Rpsls.Hubs
 {
@@ -96,17 +97,16 @@ namespace Rpsls.Hubs
 				results.Winner = clientTwo;
 				results.Loser = clientOne;
 			}
+			else if (winner == PlayerNumber.None)
+			{
+				results.Winner = clientOne;
+				results.Loser = clientTwo;
+			}
 
-			if (!fought)
-			{
-				results.WinnerLegend = "Tie";
-				results.LoserLegend = "Tie";
-			}
-			else
-			{
-				results.WinnerLegend = "You won with " + results.Winner.Gesture + " against " + results.Loser.Gesture;
-				results.LoserLegend = "You lost with " + results.Loser.Gesture + " against " + results.Winner.Gesture;
-			}
+			var legends = WinnerLoserLengendGenerator.GenerateLegend(results.Winner, results.Loser);
+
+			results.WinnerLegend = legends.WinnerLegend;
+			results.LoserLegend = legends.LoserLegend;
 
 			return results;
 		}
