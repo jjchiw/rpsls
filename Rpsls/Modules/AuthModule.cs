@@ -17,7 +17,6 @@ namespace Rpsls.Modules
 		public AuthModule()
 			: base("auths")
 		{
-
 			Post["/login"] = parameters =>
 			{
 				var authentication = new BrowserIDAuthentication();
