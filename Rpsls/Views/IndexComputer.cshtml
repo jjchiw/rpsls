@@ -1,0 +1,53 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+@{
+    Layout = "Views/Shared/Layout.cshtml";
+}
+
+	<div class="row">
+        <div class="span4">
+            <img id="player-one" src="/Content/Images/rock.png" />
+        </div>
+        <div class="span2">
+            <img src="/Content/Images/versus.png" />
+        </div>
+        <div class="span4">
+            <img id="player-two" src="/Content/Images/scissors.png" />
+        </div>
+    </div>
+
+<ul>
+	<li><a href="#" id="select-Rock"><img src="/Content/Images/rock_thumb.png" /></a></a></li>
+	<li><a href="#" id="select-Paper"><img src="/Content/Images/paper_thumb.png" /></a></li>
+	<li><a href="#" id="select-Scissors"><img src="/Content/Images/scissors_thumb.png" /></a></li>
+	<li><a href="#" id="select-Lizard"><img src="/Content/Images/lizard_thumb.png" /></a></li>
+	<li><a href="#" id="select-Spock"><img src="/Content/Images/spock_thumb.png" /></a></li>
+</ul>
+
+<div id="result" class="alert alert-info">
+</div>
+
+@section PageScript {
+<script type="text/javascript">
+
+	$(document).ready(function () {
+
+		$("a[id^='select-']").live('click', function () {
+			var gestureType = $(this).attr("id").replace("select-", "");
+
+			$("#player-one").attr("src", "/Content/Images/" + gestureType + ".png");
+
+			var url = "/game/game";
+
+			$.post(url, { "gesture": gestureType }, function (data) {
+				$("#result").html(data.Legend);
+
+				$("#player-two").attr("src", "/Content/Images/" + data.PlayerTwoGesture + ".png");
+			});
+
+			return false;
+		});
+
+	});
+
+</script>
+}

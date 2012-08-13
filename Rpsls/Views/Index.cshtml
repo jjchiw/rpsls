@@ -1,0 +1,18 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+@{
+    Layout = "Views/Shared/Layout.cshtml";
+}
+
+    @if (!Model.IsLoggedIn)
+    { 
+		<div class="alert alert-info">
+			Log in to play
+		</div>
+    }
+    else
+    { 
+        <ul>
+        <li><a href="/game/index-game">Against Random Computer</a></li>
+        <li><a href="/game/asyncgame">Against Async Player</a></li>
+    </ul>
+    }

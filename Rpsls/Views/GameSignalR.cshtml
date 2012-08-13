@@ -1,0 +1,61 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+@{
+    Layout = "Views/Shared/Layout.cshtml";
+}
+
+	<div class="row">
+        <div class="span4">
+            <img id="player-one" src="/Content/Images/rock.png" />
+        </div>
+        <div class="span2">
+            <img src="/Content/Images/versus.png" />
+        </div>
+        <div class="span4">
+            <img id="player-two" src="/Content/Images/scissors.png" />
+        </div>
+    </div>
+
+<ul>
+	<li><a href="#" id="select-Rock"><img src="/Content/Images/rock_thumb.png" /></a></a></li>
+	<li><a href="#" id="select-Paper"><img src="/Content/Images/paper_thumb.png" /></a></li>
+	<li><a href="#" id="select-Scissors"><img src="/Content/Images/scissors_thumb.png" /></a></li>
+	<li><a href="#" id="select-Lizard"><img src="/Content/Images/lizard_thumb.png" /></a></li>
+	<li><a href="#" id="select-Spock"><img src="/Content/Images/spock_thumb.png" /></a></li>
+</ul>
+
+<div id="result" class="alert alert-info">
+</div>
+
+@section PageScript {
+<script src="/Content/js/libs/jquery.signalR-0.5.2.min.js" type="text/javascript"></script>
+<script src="/signalr/hubs" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+    $(function () {
+        var rpslsHubClient = $.connection.rpslsHub;
+
+        $("a[id^='select-']").live('click', function () {
+            var gestureType = $(this).attr("id").replace("select-", "");
+
+            $("#player-one").attr("src", "/Content/Images/" + gestureType + ".png");
+
+            var url = "/game";
+
+            rpslsHubClient.sendMoveServer(gestureType);
+
+            return false;
+        });
+
+        // Start the connection
+        $.connection.hub.start(function () {
+            rpslsHubClient.join('@Model.UserName');
+        });
+
+        // Receive a new message from the server
+        rpslsHubClient.addMessage = function (legend, gesture) {
+            $("#result").html(legend);
+
+            $("#player-two").attr("src", "/Content/Images/" + gesture + ".png");
+        };
+    });
+</script>
+}

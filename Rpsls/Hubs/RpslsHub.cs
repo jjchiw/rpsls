@@ -7,6 +7,8 @@ using Rpsls.Models;
 using Rpsls.Components;
 using Rpsls.Modules;
 using Rpsls.Helpers;
+using Raven.Abstractions.Data;
+using Raven.Client.Document;
 
 namespace Rpsls.Hubs
 {
@@ -22,10 +24,23 @@ namespace Rpsls.Hubs
 		{
 			_freeForAll = freeForAll;
 			_freeForAll.Hub = this;
+
+			//var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
+			//parser.Parse();
+
+			//var documentStore = new DocumentStore
+			//{
+			//    ApiKey = parser.ConnectionStringOptions.ApiKey,
+			//    Url = parser.ConnectionStringOptions.Url
+			//};
+
+			//documentStore.Initialize();
 		}
 
 		public void Join(string myName)
 		{
+			//using(var session = docu)
+
 			if (FreeForAll.Clients.Where(x => x.Name.Equals(myName)).Count().Equals(0))
 			{
 				var client = new Client() { Name = myName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
