@@ -48,7 +48,19 @@ namespace Rpsls.Hubs
 				Caller.Name = myName;
 			}
 			else
-				throw new Exception("This login is already in use");
+			{
+				var clientIndex = FreeForAll.Clients.Select((x, i) => new { Name = x.Name, Index = i }).Where(x => x.Name == myName).FirstOrDefault();
+				if (clientIndex != null)
+				{
+					FreeForAll.Clients.RemoveAt(clientIndex.Index);
+					var client = new Client() { Name = myName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
+					FreeForAll.Clients.Add(client);
+					Caller.Name = myName;
+				}
+				
+				//throw new Exception("This login is already in use");
+			}
+				
 		}
 
 		public void SendMoveServer(string lastMove)
