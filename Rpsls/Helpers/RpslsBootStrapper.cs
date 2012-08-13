@@ -50,7 +50,7 @@ namespace Rpsls.Helpers
 			// As this is now per-request we could inject a request scoped
 			// database "context" or other request scoped services.
 
-			var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
+			var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RAVENHQ_CONNECTION_STRING");
 			parser.Parse();
 
 			var documentStore = new DocumentStore
