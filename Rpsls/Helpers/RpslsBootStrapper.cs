@@ -19,10 +19,11 @@ namespace Rpsls.Helpers
 
 		private static readonly byte[] bytes = Encoding.UTF8.GetBytes("estoesunapinchementadademadre");
 		private static readonly string phrase = "mellevalamierda";
+		private static readonly IKeyGenerator keygen = new PassphraseKeyGenerator(phrase, bytes);
 		private static readonly Lazy<CryptographyConfiguration> RpslDefaultConfiguration =
 			new Lazy<CryptographyConfiguration>(() => new CryptographyConfiguration(
-														  new RijndaelEncryptionProvider(new PassphraseKeyGenerator(phrase, bytes)),
-														  new DefaultHmacProvider(new PassphraseKeyGenerator(phrase, bytes))));
+														  new RijndaelEncryptionProvider(keygen),
+														  new DefaultHmacProvider(keygen)));
 
 		protected override Nancy.Cryptography.CryptographyConfiguration CryptographyConfiguration
 		{
