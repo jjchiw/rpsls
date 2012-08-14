@@ -14,27 +14,6 @@ namespace Rpsls.Helpers
 {
 	public class RpslsBootStrapper : DefaultNancyBootstrapper
 	{
-		byte[] favicon;
-
-		protected override byte[] FavIcon
-		{
-			get
-			{
-				if (favicon == null)
-				{
-					//TODO: remember to replace 'AssemblyName' with the prefix of the resource
-					using (var resourceStream = GetType().Assembly.GetManifestResourceStream("Rpsls.lacalabaza.ico"))
-					{
-						var tempFavicon = new byte[resourceStream.Length];
-						resourceStream.Read(tempFavicon, 0, (int)resourceStream.Length);
-						favicon = tempFavicon;
-					}
-				}
-				return favicon;
-			}
-		}
-
-
 		protected override void ConfigureApplicationContainer(TinyIoC.TinyIoCContainer container)
 		{
 			// We don't call "base" here to prevent auto-discovery of

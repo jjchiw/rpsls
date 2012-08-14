@@ -14,8 +14,7 @@ namespace Rpsls.Modules
 {
 	public class AuthModule : RavenModule
 	{
-		public AuthModule()
-			: base("auths")
+		public AuthModule() : base("auths")
 		{
 			Post["/login"] = parameters =>
 			{

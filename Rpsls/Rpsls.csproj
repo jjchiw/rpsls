@@ -143,7 +143,7 @@
     <Content Include="Content\less\img\glyphicons-halflings-white.png" />
     <Content Include="Content\less\img\glyphicons-halflings.png" />
     <Content Include="Content\less\style.css" />
-    <EmbeddedResource Include="lacalabaza.ico" />
+    <Content Include="favicon.ico" />
     <Content Include="Content\less\bootstrap\accordion.less" />
     <Content Include="Content\less\bootstrap\alerts.less" />
     <Content Include="Content\less\bootstrap\bootstrap.less" />
