@@ -44,7 +44,7 @@ namespace Rpsls.Modules
 					var jsonResponseString = JsonConvert.SerializeObject(new { email = email });
 					var jsonBytes = Encoding.UTF8.GetBytes(jsonResponseString);
 
-					var response = this.LoginAndRedirect(user.Guid, DateTime.Now.AddDays(7));
+					var response = this.LoginWithoutRedirect(user.Guid, DateTime.Now.AddDays(7));
 					response.ContentType = "application/json";
 					response.Contents = s => s.Write(jsonBytes, 0, jsonBytes.Length);
 

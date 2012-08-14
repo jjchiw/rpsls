@@ -11,6 +11,7 @@ using Raven.Client.Document;
 using Nancy.Bootstrapper;
 using System.Text;
 using Nancy.Cryptography;
+using Nancy.Session;
 
 namespace Rpsls.Helpers
 {
@@ -31,6 +32,11 @@ namespace Rpsls.Helpers
 			{
 				return RpslDefaultConfiguration.Value;
 			}
+		}
+
+		protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
+		{
+			CookieBasedSessions.Enable(pipelines);
 		}
 
 		protected override void ConfigureApplicationContainer(TinyIoC.TinyIoCContainer container)
