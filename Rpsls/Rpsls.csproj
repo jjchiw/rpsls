@@ -185,11 +185,12 @@
     <None Include="Content\less\bootstrap\variables.less" />
     <None Include="Content\less\bootstrap\wells.less" />
     <None Include="Content\less\style.less" />
-    <None Include="Views\Index.cshtml" />
-    <None Include="Views\IndexComputer.cshtml" />
-    <None Include="Views\GameSignalR.cshtml" />
+    <Content Include="Views\GameSignalR.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Index.cshtml" />
+    <Content Include="Views\IndexComputer.cshtml" />
     <Content Include="Views\IndexSignalR.html" />
-    <None Include="Views\Shared\Layout.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -197,6 +198,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\EngageComponent.cs" />
