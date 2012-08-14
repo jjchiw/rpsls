@@ -11,7 +11,7 @@ using Nancy.Security;
 
 namespace Rpsls.Modules
 {
-	public class GameModule : NancyModule
+	public class GameModule : RavenModule
 	{
 		public GameModule() : base("game")
 		{

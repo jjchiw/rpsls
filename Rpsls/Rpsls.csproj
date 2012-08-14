@@ -110,7 +110,7 @@
     <Content Include="Content\Images\spock.png" />
     <Content Include="Content\Images\spock_thumb.png" />
     <Content Include="Content\Images\versus.png" />
-	<Content Include="Content\Images\busy.gif" />
+    <Content Include="Content\Images\busy.gif" />
     <Content Include="Content\js\libs\bootstrap\alert.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.js" />
     <Content Include="Content\js\libs\bootstrap\bootstrap.min.js" />
@@ -138,10 +138,6 @@
     <Content Include="Content\js\libs\mustache.js" />
     <Content Include="Content\js\script.js" />
     <Content Include="Content\js\specific\layout.js" />
-    <Content Include="Content\js\specific\path.create.js" />
-    <Content Include="Content\js\specific\path.edit.js" />
-    <Content Include="Content\js\specific\path.js" />
-    <Content Include="Content\js\specific\path.view.js" />
     <Content Include="Content\js\specific\user.edit.js" />
     <Content Include="Content\less\img\calabaza.png" />
     <Content Include="Content\less\img\glyphicons-halflings-white.png" />

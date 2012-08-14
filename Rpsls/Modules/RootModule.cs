@@ -10,7 +10,7 @@ using Rpsls.Helpers;
 
 namespace Rpsls.Modules
 {
-	public class RootModule : NancyModule
+	public class RootModule : RavenModule
 	{
 		public RootModule()
 		{
