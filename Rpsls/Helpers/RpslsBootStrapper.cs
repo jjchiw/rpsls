@@ -9,11 +9,29 @@ using Raven.Client;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using Nancy.Bootstrapper;
+using System.Text;
+using Nancy.Cryptography;
 
 namespace Rpsls.Helpers
 {
 	public class RpslsBootStrapper : DefaultNancyBootstrapper
 	{
+
+		private static readonly byte[] bytes = Encoding.UTF8.GetBytes("estoesunapinchementadademadre");
+		private static readonly string phrase = "mellevalamierda";
+		private static readonly Lazy<CryptographyConfiguration> RpslDefaultConfiguration =
+			new Lazy<CryptographyConfiguration>(() => new CryptographyConfiguration(
+														  new RijndaelEncryptionProvider(new PassphraseKeyGenerator(phrase, bytes)),
+														  new DefaultHmacProvider(new PassphraseKeyGenerator(phrase, bytes))));
+
+		protected override Nancy.Cryptography.CryptographyConfiguration CryptographyConfiguration
+		{
+			get
+			{
+				return RpslDefaultConfiguration.Value;
+			}
+		}
+
 		protected override void ConfigureApplicationContainer(TinyIoC.TinyIoCContainer container)
 		{
 			// We don't call "base" here to prevent auto-discovery of
