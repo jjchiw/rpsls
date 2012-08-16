@@ -18,6 +18,12 @@
 </div>
 
 <div class="row">
+    <div id="alert-message" class="alert alert-error hidden">
+        <span id="alert-message-text">
+        </span>
+    </div>
+</div>
+<div class="row">
     <div id="result" class="alert alert-info">
     </div>
 </div>
@@ -34,6 +40,13 @@
         </div>
     </div>
 
+    <div id="game-window-log-div" class="window-log">
+        <p id="game-window-log">
+
+
+        </p>
+    </div>
+
 
 
 @section PageScript {
@@ -43,7 +56,15 @@
     $(document).ready(function () {
         var rpslsHubClient = $.connection.rpslsHub;
 
+        var addLog = function (newMessage) {
+            var message = $("#game-window-log").html() + "<br />" + newMessage;
+            $("#game-window-log").html(message);
+        }
+
         $("a[id^='select-']").live('click', function () {
+
+            $("#alert-message").addClass("hidden");
+
             var gestureType = $(this).attr("id").replace("select-", "");
 
             $("#player-one").attr("src", "/Content/Images/" + gestureType + ".png");
@@ -61,10 +82,27 @@
         });
 
         // Receive a new message from the server
-        rpslsHubClient.addMessage = function (legend, gesture) {
+        rpslsHubClient.play = function (legend, gesture) {
+
+            $("#alert-message").addClass("hidden");
+
             $("#result").html(legend);
 
             $("#player-two").attr("src", "/Content/Images/" + gesture + ".png");
+
+            addLog(legend);
+
+        };
+
+        // Receive a new message from the server
+        rpslsHubClient.addMessage = function (message) {
+            addLog(message);
+        };
+
+        rpslsHubClient.addWarning = function (message) {
+            $("#alert-message-text").html(message);
+            $("#alert-message").removeClass("hidden");
+            addLog(message);
         };
     });
 </script>

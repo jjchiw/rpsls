@@ -37,35 +37,43 @@ namespace Rpsls.Hubs
 			//documentStore.Initialize();
 		}
 
-		public void Join(string myName)
+		public void Join(string playerName)
 		{
 			//using(var session = docu)
 
-			if (FreeForAll.Clients.Where(x => x.Name.Equals(myName)).Count().Equals(0))
+			if (FreeForAll.Clients.Where(x => x.Name.Equals(playerName)).Count().Equals(0))
 			{
-				var client = new Client() { Name = myName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
+				var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
 				FreeForAll.Clients.Add(client);
-				Caller.Name = myName;
+				Caller.Name = playerName;
 			}
 			else
 			{
-				var clientIndex = FreeForAll.Clients.Select((x, i) => new { Name = x.Name, Index = i }).Where(x => x.Name == myName).FirstOrDefault();
+				var clientIndex = FreeForAll.Clients.Select((x, i) => new { Name = x.Name, Index = i }).Where(x => x.Name == playerName).FirstOrDefault();
 				if (clientIndex != null)
 				{
 					FreeForAll.Clients.RemoveAt(clientIndex.Index);
-					var client = new Client() { Name = myName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
+					var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
 					FreeForAll.Clients.Add(client);
-					Caller.Name = myName;
+					Caller.Name = playerName;
 				}
 				
 				//throw new Exception("This login is already in use");
 			}
+			var message = string.Format("{0} entered to play", playerName);
+			Clients.addMessage(message);
 				
 		}
 
 		public void SendMoveServer(string lastMove)
 		{
 			var client = FreeForAll.Clients.Where(x => x.Name == Caller.Name).FirstOrDefault();
+
+			if (client.Waiting)
+			{
+				Caller.addWarning(string.Format("You've a move waiting to be resolved."));
+				return; 
+			}
 
 			var clientToSendMessage = FreeForAll.Clients.Where(x => x.Waiting && x.LastMoveResponse.HasValue && x.Id != client.Id).
 														OrderBy(x => x.LastMoveResponse).FirstOrDefault();
@@ -77,18 +85,18 @@ namespace Rpsls.Hubs
 
 				if (outcome.Winner == null)
 				{
-					Caller.addMessage(outcome.WinnerLegend, clientToSendMessage.LastMove);
-					Clients[clientToSendMessage.Id].addMessage(outcome.LoserLegend, client.LastMove);
+					Caller.play(outcome.WinnerLegend, clientToSendMessage.LastMove);
+					Clients[clientToSendMessage.Id].play(outcome.LoserLegend, client.LastMove);
 				}
 				else if (outcome.Winner.Id == client.Id)
 				{
-					Caller.addMessage(outcome.WinnerLegend, clientToSendMessage.LastMove);
-					Clients[clientToSendMessage.Id].addMessage(outcome.LoserLegend, client.LastMove);
+					Caller.play(outcome.WinnerLegend, clientToSendMessage.LastMove);
+					Clients[clientToSendMessage.Id].play(outcome.LoserLegend, client.LastMove);
 				}
 				else
 				{
-					Caller.addMessage(outcome.LoserLegend, clientToSendMessage.LastMove);
-					Clients[clientToSendMessage.Id].addMessage(outcome.WinnerLegend, client.LastMove);
+					Caller.play(outcome.LoserLegend, clientToSendMessage.LastMove);
+					Clients[clientToSendMessage.Id].play(outcome.WinnerLegend, client.LastMove);
 				}
 
 				client.Reset();
@@ -100,6 +108,9 @@ namespace Rpsls.Hubs
 			client.LastMoveResponse = DateTime.UtcNow;
 			client.LastMove = lastMove;
 			client.Waiting = true;
+
+			Caller.addMessage(string.Format("your move: {0}. Waiting for player", lastMove));
+
 		}
 
 		private Outcome Engage(Client clientOne, Client clientTwo)
