@@ -44,7 +44,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Rpsls</a>
+          <a class="brand" href="#">Rock, Paper, Scissors, Lizard, Spock</a>
           <div class="nav-collapse">
             
 			<div id="login" class="@loginCssClass pull-right loggedin">
@@ -110,13 +110,22 @@
 <script language="javascript">
     $(document).ready(function () {
 
+        var loginFunc = function () {
+            $.blockUI({ message: '<h1><img src="/Content/Images/busy.gif" /> Just a moment...</h1>' });
+            navigator.id.getVerifiedEmail(gotVerifiedEmail);
+        }
+
+
         if ("@Model.IsLoggedIn" === "True") {
             setDisplayStyle("@Model.Email", "@Model.UserName");
         }
 
         $('#login').click(function () {
-            $.blockUI({ message: '<h1><img src="/Content/Images/busy.gif" /> Just a moment...</h1>' });
-            navigator.id.getVerifiedEmail(gotVerifiedEmail);
+            loginFunc();
+        });
+
+        $('#alogin').click(function () {
+            loginFunc();
         });
 
         $('#logout').click(function (e) {

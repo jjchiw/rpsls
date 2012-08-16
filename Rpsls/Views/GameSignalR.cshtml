@@ -2,8 +2,27 @@
 @{
     Layout = "Views/Shared/Layout.cshtml";
 }
+<div class="row">
+    <div class="span4">
+        <h1>Your move:</h1>
+    </div>
+    <div class="span4">
+        <ul class="game-options">
+	        <li><a href="#" id="select-Rock"><img src="/Content/Images/rock_thumb.png" /></a></a></li>
+	        <li><a href="#" id="select-Paper"><img src="/Content/Images/paper_thumb.png" /></a></li>
+	        <li><a href="#" id="select-Scissors"><img src="/Content/Images/scissors_thumb.png" /></a></li>
+	        <li><a href="#" id="select-Lizard"><img src="/Content/Images/lizard_thumb.png" /></a></li>
+	        <li><a href="#" id="select-Spock"><img src="/Content/Images/spock_thumb.png" /></a></li>
+        </ul>
+    </div>
+</div>
 
-	<div class="row">
+<div class="row">
+    <div id="result" class="alert alert-info">
+    </div>
+</div>
+
+	<div class="row hero-unit game-panel">
         <div class="span4">
             <img id="player-one" src="/Content/Images/rock.png" />
         </div>
@@ -15,16 +34,7 @@
         </div>
     </div>
 
-<ul>
-	<li><a href="#" id="select-Rock"><img src="/Content/Images/rock_thumb.png" /></a></a></li>
-	<li><a href="#" id="select-Paper"><img src="/Content/Images/paper_thumb.png" /></a></li>
-	<li><a href="#" id="select-Scissors"><img src="/Content/Images/scissors_thumb.png" /></a></li>
-	<li><a href="#" id="select-Lizard"><img src="/Content/Images/lizard_thumb.png" /></a></li>
-	<li><a href="#" id="select-Spock"><img src="/Content/Images/spock_thumb.png" /></a></li>
-</ul>
 
-<div id="result" class="alert alert-info">
-</div>
 
 @section PageScript {
 <script src="/Content/js/libs/jquery.signalR-0.5.2.min.js" type="text/javascript"></script>
