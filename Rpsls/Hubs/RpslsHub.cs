@@ -9,6 +9,7 @@ using Rpsls.Modules;
 using Rpsls.Helpers;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
+using System.Threading.Tasks;
 
 namespace Rpsls.Hubs
 {
@@ -65,9 +66,22 @@ namespace Rpsls.Hubs
 				
 		}
 
+		public void DismissMove()
+		{
+			var client = FreeForAll.Clients.Where(x => x.Id == Context.ConnectionId).FirstOrDefault();
+
+			if (client == null)
+				return;
+
+			client.Reset();
+		}
+
 		public void SendMoveServer(string lastMove)
 		{
-			var client = FreeForAll.Clients.Where(x => x.Name == Caller.Name).FirstOrDefault();
+			var client = FreeForAll.Clients.Where(x => x.Id == Context.ConnectionId).FirstOrDefault();
+
+			if (client == null)
+				return;
 
 			if (client.Waiting)
 			{
@@ -109,8 +123,14 @@ namespace Rpsls.Hubs
 			client.LastMove = lastMove;
 			client.Waiting = true;
 
+			Caller.moveAccepted(lastMove);
 			Caller.addMessage(string.Format("your move: {0}. Waiting for player", lastMove));
 
+		}
+
+		public Task Disconnect()
+		{
+			return Clients.leave(Context.ConnectionId, DateTime.Now.ToString());
 		}
 
 		private Outcome Engage(Client clientOne, Client clientTwo)

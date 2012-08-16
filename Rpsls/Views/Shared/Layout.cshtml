@@ -112,6 +112,7 @@
 
         var loginFunc = function () {
             $.blockUI({ message: '<h1><img src="/Content/Images/busy.gif" /> Just a moment...</h1>' });
+            $('.blockOverlay').attr('title', 'Click to unblock').click($.unblockUI);
             navigator.id.getVerifiedEmail(gotVerifiedEmail);
         }
 
@@ -129,6 +130,11 @@
         });
 
         $('#logout').click(function (e) {
+
+            if (typeof (rpslsHubClient) != "undefined") {
+                rpslsHubClient.Disconnect()
+            }
+
             e.preventDefault();
             $.ajax({
                 type: 'POST',

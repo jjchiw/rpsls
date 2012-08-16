@@ -18,12 +18,6 @@
 </div>
 
 <div class="row">
-    <div id="alert-message" class="alert alert-error hidden">
-        <span id="alert-message-text">
-        </span>
-    </div>
-</div>
-<div class="row">
     <div id="result" class="alert alert-info">
     </div>
 </div>
@@ -48,26 +42,38 @@
     </div>
 
 
+<div id="question" style="display:none; cursor: pointer"> 
+        
+</div>
 
 @section PageScript {
 <script src="/Content/js/libs/jquery.signalR-0.5.2.min.js" type="text/javascript"></script>
+
 <script src="/signalr/hubs" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
     $(document).ready(function () {
         var rpslsHubClient = $.connection.rpslsHub;
 
-        var addLog = function (newMessage) {
-            var message = $("#game-window-log").html() + "<br />" + newMessage;
-            $("#game-window-log").html(message);
+        var getFormatedDate = function () {
+            var d = new Date();
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth() + 1; //Months are zero based
+            var curr_year = d.getFullYear();
+            return "[" + curr_year + "-" + curr_month + "-" + curr_date + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "." + d.getMilliseconds()  + " ]";
         }
 
+        var addLog = function (newMessage) {
+            var message = getFormatedDate() + " " + newMessage + "<br />" + $("#game-window-log").html();
+            $("#game-window-log").html(message);
+        };
+
+        $("#dismiss-move").live('click', function () {
+            $.unblockUI();
+            rpslsHubClient.dismissMove();
+        });
+
         $("a[id^='select-']").live('click', function () {
-
-            $("#alert-message").addClass("hidden");
-
             var gestureType = $(this).attr("id").replace("select-", "");
-
-            $("#player-one").attr("src", "/Content/Images/" + gestureType + ".png");
 
             var url = "/game";
 
@@ -83,9 +89,6 @@
 
         // Receive a new message from the server
         rpslsHubClient.play = function (legend, gesture) {
-
-            $("#alert-message").addClass("hidden");
-
             $("#result").html(legend);
 
             $("#player-two").attr("src", "/Content/Images/" + gesture + ".png");
@@ -94,15 +97,19 @@
 
         };
 
+        rpslsHubClient.moveAccepted = function (gesture) {
+            $("#player-one").attr("src", "/Content/Images/" + gesture + ".png");
+        }
+
         // Receive a new message from the server
         rpslsHubClient.addMessage = function (message) {
             addLog(message);
         };
 
-        rpslsHubClient.addWarning = function (message) {
-            $("#alert-message-text").html(message);
-            $("#alert-message").removeClass("hidden");
-            addLog(message);
+        rpslsHubClient.addWarning = function (messagetxt) {
+            addLog(messagetxt);
+            $('#question').html(messagetxt + "<a id='dismiss-move'>dismiss move.</a>")
+            $.blockUI({ message: $('#question'), css: { width: '275px'} });
         };
     });
 </script>
