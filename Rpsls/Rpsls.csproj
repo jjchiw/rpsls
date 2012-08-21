@@ -101,6 +101,7 @@
     <Content Include="Content\Css\simplecssgrid-960.css" />
     <Content Include="Content\Images\lizard.png" />
     <Content Include="Content\Images\lizard_thumb.png" />
+    <Content Include="Content\Images\none.png" />
     <Content Include="Content\Images\paper.png" />
     <Content Include="Content\Images\paper_thumb.png" />
     <Content Include="Content\Images\rock.png" />
