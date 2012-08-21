@@ -136,6 +136,7 @@ namespace Rpsls.Hubs
 
 			Caller.moveAccepted(lastMove);
 			Caller.addMessage(string.Format("your move: {0}. Waiting for player", lastMove));
+			Clients.addMessage(string.Format("{0}, made a move", client.Name));
 
 		}
 
