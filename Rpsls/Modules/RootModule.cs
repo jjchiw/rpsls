@@ -20,7 +20,7 @@ namespace Rpsls.Modules
 		private Response Root(dynamic o)
 		{
 			var m = Context.Model("Rpsls");
-			return View["Index", m];
+			return View["GameSignalR", m];
 		}
 	}
 }

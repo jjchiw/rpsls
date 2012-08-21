@@ -63,7 +63,17 @@ namespace Rpsls.Hubs
 			}
 			var message = string.Format("{0} entered to play", playerName);
 			Clients.addMessage(message);
-				
+
+			var clientToSendMessage = FreeForAll.Clients.Where(x => x.Waiting && x.LastMoveResponse.HasValue && x.Id != Context.ConnectionId).
+														OrderBy(x => x.LastMoveResponse).FirstOrDefault();
+
+			if (clientToSendMessage != null)
+			{
+				message = string.Format("{0} is waiting for a move.", clientToSendMessage.Name);
+				Caller.addMessage(message);
+			}
+
+			Clients.totalPlayers(FreeForAll.Clients.Count);
 		}
 
 		public void DismissMove()
@@ -94,6 +104,7 @@ namespace Rpsls.Hubs
 
 			if (clientToSendMessage != null)
 			{
+				Caller.moveAcceptedToPlay(lastMove);
 				client.LastMove = lastMove;
 				var outcome = Engage(client, clientToSendMessage);
 
@@ -128,9 +139,14 @@ namespace Rpsls.Hubs
 
 		}
 
-		public Task Disconnect()
+		public void Disconnect()
 		{
-			return Clients.leave(Context.ConnectionId, DateTime.Now.ToString());
+			Clients.leave(Context.ConnectionId, DateTime.Now.ToString());
+
+			var client = FreeForAll.Clients.Where(x => x.Id == Context.ConnectionId).FirstOrDefault();
+			FreeForAll.Clients.Remove(client);
+
+			Clients.totalPlayers(FreeForAll.Clients.Count);
 		}
 
 		private Outcome Engage(Client clientOne, Client clientTwo)

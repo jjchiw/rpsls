@@ -2,7 +2,16 @@
 @{
     Layout = "Views/Shared/Layout.cshtml";
 }
-<div class="row">
+
+@if (!Model.IsLoggedIn)
+{ 
+		<div class="alert alert-info">
+			<a id="alogin" href="#login">Log in to play</a>
+		</div>
+}
+else
+{
+    <div class="row">
     <div class="span4">
         <h1>Your move:</h1>
     </div>
@@ -24,13 +33,13 @@
 
 	<div class="row hero-unit game-panel">
         <div class="span4">
-            <img id="player-one" src="/Content/Images/rock.png" />
+            <img id="player-one" src="/Content/Images/none.png" />
         </div>
         <div class="span2">
             <img src="/Content/Images/versus.png" />
         </div>
         <div class="span4">
-            <img id="player-two" src="/Content/Images/scissors.png" />
+            <img id="player-two" src="/Content/Images/none.png" />
         </div>
     </div>
 
@@ -52,14 +61,14 @@
 <script src="/signalr/hubs" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
     $(document).ready(function () {
-        var rpslsHubClient = $.connection.rpslsHub;
+        rpslsHubClient = $.connection.rpslsHub;
 
         var getFormatedDate = function () {
             var d = new Date();
             var curr_date = d.getDate();
             var curr_month = d.getMonth() + 1; //Months are zero based
             var curr_year = d.getFullYear();
-            return "[" + curr_year + "-" + curr_month + "-" + curr_date + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "." + d.getMilliseconds()  + " ]";
+            return "[" + curr_year + "-" + curr_month + "-" + curr_date + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "." + d.getMilliseconds() + " ]";
         }
 
         var addLog = function (newMessage) {
@@ -99,6 +108,12 @@
 
         rpslsHubClient.moveAccepted = function (gesture) {
             $("#player-one").attr("src", "/Content/Images/" + gesture + ".png");
+
+            $("#player-two").attr("src", "/Content/Images/none.png");
+        }
+
+        rpslsHubClient.moveAcceptedToPlay = function (gesture) {
+            $("#player-one").attr("src", "/Content/Images/" + gesture + ".png");
         }
 
         // Receive a new message from the server
@@ -111,6 +126,12 @@
             $('#question').html(messagetxt + "<a id='dismiss-move'>dismiss move.</a>")
             $.blockUI({ message: $('#question'), css: { width: '275px'} });
         };
+
+        rpslsHubClient.totalPlayers = function (totalPlayers) {
+            $("#total-players").html(totalPlayers);
+        };
     });
 </script>
+} 
 }
+

@@ -1,4 +1,6 @@
-﻿function setSession(val) {
+﻿var rpslsHubClient;
+
+function setSession(val) {
 	if (navigator.id) {
 		navigator.id.sessions = val ? val : [];
 	}
