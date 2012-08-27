@@ -1,0 +1,32 @@
+﻿@using Rpsls.Models.ViewModels
+
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+@{
+    Layout = "Views/Shared/Layout.cshtml";
+}
+
+<div class="row">
+    <div class="span10">
+        <h2>Edit</h2>
+        <form action="/User" method="post">
+		<div class="clearfix">
+            <h3>Account</h3>
+        </div>
+        <div class="clearfix" id="user-data">
+			<label for="Username">Username</label>
+			<div class="input">
+                <input id="username" name="Username" type="text" value="@Model.UserName"/> <input type="submit" class="btn btn-primary" value="save"/>
+            </div>
+            <label for="Username">Token</label>
+            <div class="input">
+                <label id="token-label">@Model.Token</label>
+                <a id="generate-token" href="#" class="btn btn-info">Generate Token</a>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+@section PageScript {
+	<script type="text/javascript" src="/Content/js/specific/user.edit.js"></script>
+}
