@@ -6,7 +6,7 @@ using Rpsls.Models;
 
 namespace Rpsls.Components
 {
-	public class EngageComponent
+	public class EngageComponent : Rpsls.Components.IEngageComponent
 	{
 		static IDictionary<GestureType, IList<GestureType>> _gestureBeatGestures = null;
 

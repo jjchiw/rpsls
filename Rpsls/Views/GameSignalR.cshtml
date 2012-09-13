@@ -93,7 +93,7 @@ else
 
         // Start the connection
         $.connection.hub.start(function () {
-            rpslsHubClient.join('@Model.UserName');
+            rpslsHubClient.join('@Model.UserName', '@Model.Email');
         });
 
         // Receive a new message from the server

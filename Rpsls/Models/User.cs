@@ -13,6 +13,10 @@ namespace Rpsls.Models
 		public Guid Guid { get; set; }
 		public string Email { get; set; }
 
+		public int WinCount { get; set; }
+		public int LostCount { get; set; }
+		public int TieCount { get; set; }
+
 		public string Token { get; set; }
 
 		#region IUserIdentity Members

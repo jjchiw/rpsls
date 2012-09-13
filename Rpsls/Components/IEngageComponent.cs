@@ -8,6 +8,7 @@ namespace Rpsls.Components
 {
 	public interface IEngageComponent
 	{
-		bool TryEngage(IPlayer playerOne, IPlayer playerTwo, out PlayerNumber number);
+		GestureType RandomGesture();
+		bool TryEngage(Player playerOne, Player playerTwo, out PlayerNumber outcome);
 	}
 }

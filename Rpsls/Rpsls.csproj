@@ -202,7 +202,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\EngageComponent.cs" />
+    <Compile Include="Components\IEngageComponent.cs" />
+    <Compile Include="Components\IStatComponent.cs" />
+    <Compile Include="Components\StatComponent.cs" />
     <Compile Include="Helpers\GravatarExtensions.cs" />
+    <Compile Include="Hubs\MathOutcome.cs" />
     <Compile Include="Helpers\ModuleExtensions.cs" />
     <Compile Include="Helpers\RpslsBootStrapper.cs" />
     <Compile Include="Helpers\UserMapper.cs" />
@@ -213,6 +217,7 @@
     <Compile Include="Models\GestureType.cs" />
     <Compile Include="Models\Helpers\IUserDenormalized.cs" />
     <Compile Include="Models\Helpers\UserDenormalized.cs" />
+    <Compile Include="Models\MatchEncounter.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerNumber.cs" />
     <Compile Include="Models\User.cs" />

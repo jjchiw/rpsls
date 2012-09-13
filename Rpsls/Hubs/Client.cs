@@ -13,6 +13,7 @@ namespace Rpsls.Hubs
 		public string Id { get; set; }
 		public string Name { get; set; }
 		public bool Waiting { get; set; }
+		public string UserId { get; set; }
 
 		[ScriptIgnore]
 		public string LastMove { get; set; }

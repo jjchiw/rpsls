@@ -10,6 +10,7 @@ using Rpsls.Helpers;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using System.Threading.Tasks;
+using Raven.Client;
 
 namespace Rpsls.Hubs
 {
@@ -18,49 +19,69 @@ namespace Rpsls.Hubs
 	{
 		private readonly int TimeoutInSeconds = 30;
 		private readonly FreeForAll _freeForAll;
+		private readonly IEngageComponent _engageComponent;
+		private readonly IStatComponent _statComponent;
+		private readonly IDocumentStore _store;
 
-		public RpslsHub() : this(FreeForAll.Instance) { }
+		public RpslsHub() : this(FreeForAll.Instance) 
+		{
+		}
 
 		public RpslsHub(FreeForAll freeForAll)
 		{
 			_freeForAll = freeForAll;
 			_freeForAll.Hub = this;
 
-			//var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
-			//parser.Parse();
+			_engageComponent = new EngageComponent();
 
-			//var documentStore = new DocumentStore
-			//{
-			//    ApiKey = parser.ConnectionStringOptions.ApiKey,
-			//    Url = parser.ConnectionStringOptions.Url
-			//};
+			var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
+			parser.Parse();
 
-			//documentStore.Initialize();
+			_store = new DocumentStore
+			{
+				ApiKey = parser.ConnectionStringOptions.ApiKey,
+				Url = parser.ConnectionStringOptions.Url
+			};
+
+			_store.Initialize();
+
+			_statComponent = new StatComponent(_store);
 		}
 
-		public void Join(string playerName)
+		public void Join(string playerName, string email)
 		{
-			//using(var session = docu)
+			using (var session = _store.OpenSession())
+			{
+				var user = session.Query<User>().FirstOrDefault(x => x.Email == email);
 
-			if (FreeForAll.Clients.Where(x => x.Name.Equals(playerName)).Count().Equals(0))
-			{
-				var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
-				FreeForAll.Clients.Add(client);
-				Caller.Name = playerName;
-			}
-			else
-			{
-				var clientIndex = FreeForAll.Clients.Select((x, i) => new { Name = x.Name, Index = i }).Where(x => x.Name == playerName).FirstOrDefault();
-				if (clientIndex != null)
+				if (user == null)
 				{
-					FreeForAll.Clients.RemoveAt(clientIndex.Index);
-					var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId };
+					session.Store(user);
+					session.SaveChanges();
+				}
+
+				if (FreeForAll.Clients.Where(x => x.Name.Equals(playerName)).Count().Equals(0))
+				{
+					var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId, UserId = user.Id };
 					FreeForAll.Clients.Add(client);
 					Caller.Name = playerName;
 				}
-				
-				//throw new Exception("This login is already in use");
+				else
+				{
+					var clientIndex = FreeForAll.Clients.Select((x, i) => new { Name = x.Name, Index = i }).Where(x => x.Name == playerName).FirstOrDefault();
+					if (clientIndex != null)
+					{
+						FreeForAll.Clients.RemoveAt(clientIndex.Index);
+						var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId, UserId = user.Id };
+						FreeForAll.Clients.Add(client);
+						Caller.Name = playerName;
+					}
+
+					//throw new Exception("This login is already in use");
+				}
 			}
+
+			
 			var message = string.Format("{0} entered to play", playerName);
 			Clients.addMessage(message);
 
@@ -150,24 +171,22 @@ namespace Rpsls.Hubs
 			Clients.totalPlayers(FreeForAll.Clients.Count);
 		}
 
-		private Outcome Engage(Client clientOne, Client clientTwo)
+		private MatchOutcome Engage(Client clientOne, Client clientTwo)
 		{
-
-			var eng = new EngageComponent();
-
 			var p = new Player(PlayerNumber.PlayerOne, clientOne.Gesture);
 			var p2 = new Player(PlayerNumber.PlayerTwo, clientTwo.Gesture);
 
 			PlayerNumber winner;
-			var fought = eng.TryEngage(p, p2, out winner);
+			var fought = _engageComponent.TryEngage(p, p2, out winner);
 
-			var results = new Outcome();
-			if (winner == PlayerNumber.PlayerOne)
+			var results = new MatchOutcome();
+			results.PlayerNumberWinner = winner;
+			if (results.PlayerNumberWinner == PlayerNumber.PlayerOne)
 			{
 				results.Winner = clientOne;
 				results.Loser = clientTwo;
 			}
-			else if (winner == PlayerNumber.PlayerTwo)
+			else if (results.PlayerNumberWinner == PlayerNumber.PlayerTwo)
 			{
 				results.Winner = clientTwo;
 				results.Loser = clientOne;
@@ -178,20 +197,14 @@ namespace Rpsls.Hubs
 				results.Loser = clientTwo;
 			}
 
+			_statComponent.SaveStats(results);
+
 			var legends = WinnerLoserLengendGenerator.GenerateLegend(results.Winner, results.Loser);
 
 			results.WinnerLegend = legends.WinnerLegend;
 			results.LoserLegend = legends.LoserLegend;
 
 			return results;
-		}
-
-		public class Outcome
-		{
-			public Client Winner { get; set; }
-			public Client Loser { get; set; }
-			public string WinnerLegend { get; set; }
-			public string LoserLegend { get; set; }
 		}
 	}
 }
