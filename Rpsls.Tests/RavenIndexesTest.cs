@@ -84,79 +84,79 @@ namespace Rpsls.Tests
 		[Fact]
 		public void Test_Match_Encounter_Win_Index()
 		{
-			using (var documentStore = new DocumentStore() { Url = "http://localhost:8080/databases/rpsls" })
-			{
-				documentStore.Initialize();
+			//using (var documentStore = new DocumentStore() { Url = "http://localhost:8080/databases/rpsls" })
+			//{
+			//    documentStore.Initialize();
 
-				using (var session = documentStore.OpenSession())
-				{
-					IndexCreation.CreateIndexes(typeof(MatchEncounterWinIndex).Assembly, documentStore);
+			//    using (var session = documentStore.OpenSession())
+			//    {
+			//        IndexCreation.CreateIndexes(typeof(MatchEncounterWinIndex).Assembly, documentStore);
 
-					//var encounters = session.Query<MatchEncounter>().Where(x => x.Result == "Win");
-					var encounters = session.Query<MatchEncounterIndexResult, MatchEncounterWinIndex>()
-											.Select(x => x).ToList();
+			//        //var encounters = session.Query<MatchEncounter>().Where(x => x.Result == "Win");
+			//        var encounters = session.Query<MatchEncounterIndexResult, MatchEncounterWinIndex>()
+			//                                .Select(x => x).ToList();
 
-					Assert.True(encounters.Count() > 0);
+			//        Assert.True(encounters.Count() > 0);
 
-					foreach (var item in encounters)
-					{
-						Console.WriteLine(item.UserId + " - " + item.Gesture + " - " + item.Count);
-					}
+			//        foreach (var item in encounters)
+			//        {
+			//            Console.WriteLine(item.UserId + " - " + item.Gesture + " - " + item.Count);
+			//        }
 
-				}
-			}
+			//    }
+			//}
 		}
 
 		[Fact]
 		public void Test_Match_Encounter_Lose_Index()
 		{
-			using (var documentStore = new DocumentStore() { Url = "http://localhost:8080/databases/rpsls" })
-			{
-				documentStore.Initialize();
+			//using (var documentStore = new DocumentStore() { Url = "http://localhost:8080/databases/rpsls" })
+			//{
+			//    documentStore.Initialize();
 
-				using (var session = documentStore.OpenSession())
-				{
-					IndexCreation.CreateIndexes(typeof(MatchEncounterLoseIndex).Assembly, documentStore);
+			//    using (var session = documentStore.OpenSession())
+			//    {
+			//        IndexCreation.CreateIndexes(typeof(MatchEncounterLoseIndex).Assembly, documentStore);
 
-					//var encounters = session.Query<MatchEncounter>().Where(x => x.Result == "Win");
-					var encounters = session.Query<MatchEncounterIndexResult, MatchEncounterLoseIndex>()
-											.Select(x => x).ToList();
+			//        var encounters = session.Query<MatchEncounter>().Where(x => x.Result == "Win");
+			//        var encounters = session.Query<MatchEncounterIndexResult, MatchEncounterLoseIndex>()
+			//                                .Select(x => x).ToList();
 
-					Assert.True(encounters.Count() > 0);
+			//        Assert.True(encounters.Count() > 0);
 
-					foreach (var item in encounters)
-					{
-						Console.WriteLine(item.UserId + " - " + item.Gesture + " - " + item.Count);
-					}
+			//        foreach (var item in encounters)
+			//        {
+			//            Console.WriteLine(item.UserId + " - " + item.Gesture + " - " + item.Count);
+			//        }
 
-				}
-			}
+			//    }
+			//}
 		}
 
 		[Fact]
 		public void Test_Match_Encounter_Tie_Index()
 		{
-			using (var documentStore = new DocumentStore() { Url = "http://localhost:8080/databases/rpsls" })
-			{
-				documentStore.Initialize();
+			//using (var documentStore = new DocumentStore() { Url = "http://localhost:8080/databases/rpsls" })
+			//{
+			//    documentStore.Initialize();
 
-				using (var session = documentStore.OpenSession())
-				{
-					IndexCreation.CreateIndexes(typeof(MatchEncounterLoseIndex).Assembly, documentStore);
+			//    using (var session = documentStore.OpenSession())
+			//    {
+			//        IndexCreation.CreateIndexes(typeof(MatchEncounterLoseIndex).Assembly, documentStore);
 
-					//var encounters = session.Query<MatchEncounter>().Where(x => x.Result == "Win");
-					var encounters = session.Query<MatchEncounterIndexResult, MatchEncounterTieIndex>()
-											.Select(x => x).ToList();
+			//        //var encounters = session.Query<MatchEncounter>().Where(x => x.Result == "Win");
+			//        var encounters = session.Query<MatchEncounterIndexResult, MatchEncounterTieIndex>()
+			//                                .Select(x => x).ToList();
 
-					Assert.True(encounters.Count() > 0);
+			//        Assert.True(encounters.Count() > 0);
 
-					foreach (var item in encounters)
-					{
-						Console.WriteLine(item.UserId + " - " + item.Gesture + " - " + item.Count);
-					}
+			//        foreach (var item in encounters)
+			//        {
+			//            Console.WriteLine(item.UserId + " - " + item.Gesture + " - " + item.Count);
+			//        }
 
-				}
-			}
+			//    }
+			//}
 		}
 	}
 }

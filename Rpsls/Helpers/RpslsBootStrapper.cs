@@ -12,6 +12,8 @@ using Nancy.Bootstrapper;
 using System.Text;
 using Nancy.Cryptography;
 using Nancy.Session;
+using Raven.Client.Indexes;
+using Rpsls.Helpers.Indexes;
 
 namespace Rpsls.Helpers
 {
@@ -64,6 +66,10 @@ namespace Rpsls.Helpers
 			};
 
 			documentStore.Initialize();
+
+			IndexCreation.CreateIndexes(typeof(MatchEncounterLoseIndex).Assembly, documentStore);
+			IndexCreation.CreateIndexes(typeof(MatchEncounterWinIndex).Assembly, documentStore);
+			IndexCreation.CreateIndexes(typeof(MatchEncounterTieIndex).Assembly, documentStore);
 
 			container.Register<IDocumentStore>(documentStore);
 			container.Register<IUserMapper, UserMapper>();

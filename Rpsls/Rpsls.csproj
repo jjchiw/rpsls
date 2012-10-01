@@ -206,6 +206,10 @@
     <Compile Include="Components\IStatComponent.cs" />
     <Compile Include="Components\StatComponent.cs" />
     <Compile Include="Helpers\GravatarExtensions.cs" />
+    <Compile Include="Helpers\Indexes\MatchEncounterIndexResult.cs" />
+    <Compile Include="Helpers\Indexes\MatchEncounterLoseIndex.cs" />
+    <Compile Include="Helpers\Indexes\MatchEncounterTieIndex.cs" />
+    <Compile Include="Helpers\Indexes\MatchEncounterWinIndex.cs" />
     <Compile Include="Hubs\MathOutcome.cs" />
     <Compile Include="Helpers\ModuleExtensions.cs" />
     <Compile Include="Helpers\RpslsBootStrapper.cs" />

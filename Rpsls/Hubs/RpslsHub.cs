@@ -204,6 +204,13 @@ namespace Rpsls.Hubs
 			results.WinnerLegend = legends.WinnerLegend;
 			results.LoserLegend = legends.LoserLegend;
 
+			if (winner == PlayerNumber.None)
+			{
+				results.Winner = null;
+				results.Loser = null;
+			}
+				
+
 			return results;
 		}
 	}

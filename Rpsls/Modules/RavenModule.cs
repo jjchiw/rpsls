@@ -25,6 +25,8 @@ namespace Rpsls.Modules
 			this.Before.AddItemToEndOfPipeline(ctx =>
 			{
 				RavenSession = RavenDocumentStore.OpenSession();
+
+
 				return null;
 			});
 
