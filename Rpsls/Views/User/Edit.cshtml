@@ -26,6 +26,212 @@
         </form>
     </div>
 </div>
+<div class="row">
+<div class="span4">
+<table class="table">
+        <tr>
+            <th>Move</th>
+            <th>Win</th>
+            <th>Lose</th>
+            <th>Tie</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/rock_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-win-count">@Model.UserStats.RockWinCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-win-rate">@Model.UserStats.RockWinRate</span>%
+                </div>
+            </td>
+
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-lose-count">@Model.UserStats.RockLoseCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-lose-rate">@Model.UserStats.RockLoseRate</span>%
+                </div>
+             </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-tie-count">@Model.UserStats.RockTieCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-tie-rate">@Model.UserStats.RockTieRate</span>%
+                 </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-total-count">@Model.UserStats.RockTotalCount</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/paper_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-win-count">@Model.UserStats.PaperWinCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-win-rate">@Model.UserStats.PaperWinRate</span>%
+                </div>
+             </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-lose-count">@Model.UserStats.PaperLoseCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="paer-lose-rate">@Model.UserStats.PaperLoseRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-tie-count">@Model.UserStats.PaperTieCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-tie-rate">@Model.UserStats.PaperTieRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-total-count">@Model.UserStats.PaperTotalCount</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/scissors_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-win-count">@Model.UserStats.ScissorsWinCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-win-rate">@Model.UserStats.ScissorsWinRate</span>%
+                </div>
+           </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-lose-count">@Model.UserStats.ScissorsLoseCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-lose-rate">@Model.UserStats.ScissorsLoseRate</span>%
+                </div>
+             </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-tie-count">@Model.UserStats.ScissorsTieCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-tie-rate">@Model.UserStats.ScissorsTieRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-total-count">@Model.UserStats.ScissorsTotalCount</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/lizard_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-win-count">@Model.UserStats.LizardWinCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-win-rate">@Model.UserStats.LizardWinRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-lose-count">@Model.UserStats.LizardLoseCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-lose-rate">@Model.UserStats.LizardLoseRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-tie-count">@Model.UserStats.LizardTieCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-tie-rate">@Model.UserStats.LizardTieRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-total-count">@Model.UserStats.LizardTotalCount</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/spock_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-win-count">@Model.UserStats.SpockWinCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-win-rate">@Model.UserStats.SpockWinRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-lose-count">@Model.UserStats.SpockLoseCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-lose-rate">@Model.UserStats.SpockLoseRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-tie-count">@Model.UserStats.SpockTieCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-tie-rate">@Model.UserStats.SpockTieRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-total-count">@Model.UserStats.SpockTotalCount</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td>Total</td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-win-count">@Model.UserStats.TotalWinCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="total-win-rate">@Model.UserStats.TotalWinRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-lose-count">@Model.UserStats.TotalLoseCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="total-lose-rate">@Model.UserStats.TotalLoseRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-tie-count">@Model.UserStats.TotalTieCount</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="total-tie-rate">@Model.UserStats.TotalTieRate</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-total-count">@Model.UserStats.TotalTotalCount</span>
+                </div>
+            </td>
+        </tr>
+      </table>
+      </div>
+</div>
 
 @section PageScript {
 	<script type="text/javascript" src="/Content/js/specific/user.edit.js"></script>
