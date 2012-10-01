@@ -131,18 +131,18 @@ namespace Rpsls.Hubs
 
 				if (outcome.Winner == null)
 				{
-					Caller.play(outcome.WinnerLegend, clientToSendMessage.LastMove);
-					Clients[clientToSendMessage.Id].play(outcome.LoserLegend, client.LastMove);
+					Caller.play(outcome.WinnerLegend, client.LastMove, clientToSendMessage.LastMove, "tie");
+					Clients[clientToSendMessage.Id].play(outcome.LoserLegend, clientToSendMessage.LastMove, client.LastMove, "tie");
 				}
 				else if (outcome.Winner.Id == client.Id)
 				{
-					Caller.play(outcome.WinnerLegend, clientToSendMessage.LastMove);
-					Clients[clientToSendMessage.Id].play(outcome.LoserLegend, client.LastMove);
+					Caller.play(outcome.WinnerLegend, client.LastMove, clientToSendMessage.LastMove, "win");
+					Clients[clientToSendMessage.Id].play(outcome.LoserLegend, clientToSendMessage.LastMove, client.LastMove, "lose");
 				}
 				else
 				{
-					Caller.play(outcome.LoserLegend, clientToSendMessage.LastMove);
-					Clients[clientToSendMessage.Id].play(outcome.WinnerLegend, client.LastMove);
+					Caller.play(outcome.LoserLegend, client.LastMove, clientToSendMessage.LastMove, "lose");
+					Clients[clientToSendMessage.Id].play(outcome.WinnerLegend, clientToSendMessage.LastMove, client.LastMove, "win");
 				}
 
 				client.Reset();

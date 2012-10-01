@@ -119,6 +119,7 @@
     <Compile Include="EngageComponentTest.cs" />
     <Compile Include="LegendGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenIndexesTest.cs" />
     <Compile Include="RpslsModuleTest.cs" />
     <Compile Include="StatComponentTest.cs" />
   </ItemGroup>

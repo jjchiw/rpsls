@@ -1,6 +1,6 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 @{
-    Layout = "Views/Shared/Layout.cshtml";
+    Layout = "Views/Shared/GameLayout.cshtml";
 }
 
 @if (!Model.IsLoggedIn)
@@ -11,49 +11,259 @@
 }
 else
 {
-    <div class="row">
-    <div class="span4">
-        <h1>Your move:</h1>
-    </div>
-    <div class="span4">
-        <ul class="game-options">
-	        <li><a href="#" id="select-Rock"><img src="/Content/Images/rock_thumb.png" /></a></a></li>
-	        <li><a href="#" id="select-Paper"><img src="/Content/Images/paper_thumb.png" /></a></li>
-	        <li><a href="#" id="select-Scissors"><img src="/Content/Images/scissors_thumb.png" /></a></li>
-	        <li><a href="#" id="select-Lizard"><img src="/Content/Images/lizard_thumb.png" /></a></li>
-	        <li><a href="#" id="select-Spock"><img src="/Content/Images/spock_thumb.png" /></a></li>
-        </ul>
-    </div>
-</div>
-
-<div class="row">
-    <div id="result" class="alert alert-info">
-    </div>
-</div>
-
-	<div class="row hero-unit game-panel">
-        <div class="span4">
-            <img id="player-one" src="/Content/Images/none.png" />
-        </div>
-        <div class="span2">
-            <img src="/Content/Images/versus.png" />
-        </div>
-        <div class="span4">
-            <img id="player-two" src="/Content/Images/none.png" />
-        </div>
-    </div>
-
-    <div id="game-window-log-div" class="window-log">
-        <p id="game-window-log">
-
-
+    
+  <div class="row-fluid">
+    <div class="span3">
+      <div>
+        <p>
+          Stats For Now
         </p>
+      </div>
+      <table class="table">
+        <tr>
+            <th>Move</th>
+            <th>Win</th>
+            <th>Lose</th>
+            <th>Tie</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/rock_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-win-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-win-rate">0.00</span>%
+                </div>
+            </td>
+
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-lose-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-lose-rate">0.00</span>%
+                </div>
+             </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-tie-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-tie-rate">0.00</span>%
+                 </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="rock-total-count">0</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/paper_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-win-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-win-rate">0.00</span>%
+                </div>
+             </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-lose-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="paer-lose-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-tie-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-tie-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="paper-total-count">0</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/scissors_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-win-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-win-rate">0.00</span>%
+                </div>
+           </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-lose-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-lose-rate">0.00</span>%
+                </div>
+             </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-tie-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-tie-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="scissors-total-count">0</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/lizard_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-win-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-win-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-lose-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-lose-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-tie-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-tie-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="lizard-total-count">0</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td><img src="/Content/Images/spock_thumb.png" /></td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-win-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-win-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-lose-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-lose-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-tie-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-tie-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="spock-total-count">0</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+	        <td>Total</td>
+	        <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-win-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="total-win-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-lose-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="total-lose-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-tie-count">0</span>
+                </div>
+                <div class="row no-margin-stats"> 
+                    <span id="total-tie-rate">0.00</span>%
+                </div>
+            </td>
+            <td>
+                <div class="row no-margin-stats"> 
+                    <span id="total-total-count">0</span>
+                </div>
+            </td>
+        </tr>
+      </table>
     </div>
+    <div class="span9">
+        <div class="row">
+            <div class="span4">
+                <h1>Your move:</h1>
+            </div>
+            <div class="span4">
+                <ul class="game-options">
+	                <li><a href="#" id="select-Rock"><img src="/Content/Images/rock_thumb.png" /></a></a></li>
+	                <li><a href="#" id="select-Paper"><img src="/Content/Images/paper_thumb.png" /></a></li>
+	                <li><a href="#" id="select-Scissors"><img src="/Content/Images/scissors_thumb.png" /></a></li>
+	                <li><a href="#" id="select-Lizard"><img src="/Content/Images/lizard_thumb.png" /></a></li>
+	                <li><a href="#" id="select-Spock"><img src="/Content/Images/spock_thumb.png" /></a></li>
+                </ul>
+            </div>
+        </div>
 
+        <div class="row">
+            <div id="result" class="alert alert-info"></div>
+        </div>
 
-<div id="question" style="display:none; cursor: pointer"> 
-        
-</div>
+	    <div class="row hero-unit game-panel">
+            <div class="span4">
+                <img id="player-one" src="/Content/Images/none.png" />
+            </div>
+            <div class="span2">
+                <img src="/Content/Images/versus.png" />
+            </div>
+            <div class="span4">
+                <img id="player-two" src="/Content/Images/none.png" />
+            </div>
+        </div>
+
+        <div id="game-window-log-div" class="window-log">
+            <p id="game-window-log"> </p>
+        </div>
+
+        <div id="question" style="display:none; cursor: pointer"> </div>
+    </div>
+</div>    
+    
+    
+    
 
 @section PageScript {
 <script src="/Content/js/libs/jquery.signalR-0.5.2.min.js" type="text/javascript"></script>
@@ -62,6 +272,16 @@ else
 <script language="javascript" type="text/javascript">
     $(document).ready(function () {
         rpslsHubClient = $.connection.rpslsHub;
+
+        var stats =
+        {
+            rock: { win: 0, lose: 0, tie: 0 },
+            scissors: { win: 0, lose: 0, tie: 0 },
+            paper: { win: 0, lose: 0, tie: 0 },
+            lizard: { win: 0, lose: 0, tie: 0 },
+            spock: { win: 0, lose: 0, tie: 0 },
+            total: { win: 0, lose: 0, tie: 0 }
+        };
 
         var getFormatedDate = function () {
             var d = new Date();
@@ -75,6 +295,55 @@ else
             var message = getFormatedDate() + " " + newMessage + "<br />" + $("#game-window-log").html();
             $("#game-window-log").html(message);
         };
+
+        var updateTotalStats = function () {
+            
+            var total = stats["total"]["win"] + stats["total"]["lose"] + stats["total"]["tie"];
+
+            $("#total-win-count").html(stats["total"]["win"]);
+            $("#total-lose-count").html(stats["total"]["lose"]);
+            $("#total-tie-count").html(stats["total"]["tie"]);
+
+            var rate = (stats["total"]["win"] / total) * 100;
+            $("#total-win-rate").html(rate.toFixed(2));
+
+            rate = (stats["total"]["lose"] / total) * 100;
+            $("#total-lose-rate").html(rate.toFixed(2));
+
+            rate = (stats["total"]["tie"] / total) * 100;
+            $("#total-tie-rate").html(rate.toFixed(2));
+
+            $("#total-total-count").html(total);
+
+        };
+
+        var setStats = function (gesture, result) {
+
+            stats[gesture][result]++;
+            stats["total"][result]++;
+
+            var spanId = gesture + "-" + result + "-count";
+            $("#" + spanId).html(stats[gesture][result]);
+
+            var total = stats[gesture]["win"] + stats[gesture]["lose"] + stats[gesture]["tie"];
+            $("#" + gesture + "-total-count").html(total);
+
+            var rate = (stats[gesture]["win"] / total) * 100;
+            spanId = gesture + "-win-rate";
+            $("#" + spanId).html(rate.toFixed(2));
+
+            rate = (stats[gesture]["lose"] / total) * 100;
+            spanId = gesture + "-lose-rate";
+            $("#" + spanId).html(rate.toFixed(2));
+
+            rate = (stats[gesture]["tie"] / total) * 100;
+            spanId = gesture + "-tie-rate";
+            $("#" + spanId).html(rate.toFixed(2));
+
+            updateTotalStats();
+        };
+
+        
 
         $("#dismiss-move").live('click', function () {
             $.unblockUI();
@@ -97,10 +366,13 @@ else
         });
 
         // Receive a new message from the server
-        rpslsHubClient.play = function (legend, gesture) {
+        //result win, lose, tie
+        rpslsHubClient.play = function (legend, myGesture, otherPlayergesture, result) {
             $("#result").html(legend);
 
-            $("#player-two").attr("src", "/Content/Images/" + gesture + ".png");
+            $("#player-two").attr("src", "/Content/Images/" + otherPlayergesture + ".png");
+
+            setStats(myGesture.toLowerCase(), result.toLowerCase());
 
             addLog(legend);
 
@@ -134,4 +406,3 @@ else
 </script>
 } 
 }
-
