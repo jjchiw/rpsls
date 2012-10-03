@@ -57,6 +57,7 @@ namespace Rpsls.Tasks
 					},
 					allowStale: true);
 
+
 				documentStore.DatabaseCommands.UpdateByIndex("MatchEncountersByUserId",
 					new IndexQuery
 					{
