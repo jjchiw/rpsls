@@ -28,6 +28,7 @@ namespace Rpsls.Modules
 					user = RavenSession.Query<User>()
 								.FirstOrDefault(x => x.Email == email);
 
+
 					if (user == null)
 					{
 						user = new User
@@ -47,7 +48,6 @@ namespace Rpsls.Modules
 					var response = this.LoginWithoutRedirect(user.Guid, DateTime.Now.AddDays(7));
 					response.ContentType = "application/json";
 					response.Contents = s => s.Write(jsonBytes, 0, jsonBytes.Length);
-
 
 					return response;
 				}

@@ -27,10 +27,40 @@ namespace Rpsls.Tasks
 
 				documentStore.Initialize();
 
-				documentStore.DatabaseCommands.UpdateByIndex("Paths/ByUserId",
+
+				documentStore.DatabaseCommands.UpdateByIndex("MatchEncountersByUserId",
 					new IndexQuery
 					{
 						Query = String.Format("User:{0}", user.Id)
+					}, new[]
+					{
+						new PatchRequest
+						{
+							Type = PatchCommandType.Modify,
+							Name = "User",
+							Nested = new[]
+							{
+								new PatchRequest
+								{
+									Type = PatchCommandType.Set,
+									Name = "UserName",
+									Value = user.UserName,
+								},
+								new PatchRequest
+								{
+									Type = PatchCommandType.Set,
+									Name = "Email",
+									Value = user.Email,
+								},
+							}
+						}
+					},
+					allowStale: true);
+
+				documentStore.DatabaseCommands.UpdateByIndex("MatchEncountersByUserId",
+					new IndexQuery
+					{
+						Query = String.Format("UserRival:{0}", user.Id)
 					}, new[]
 					{
 						new PatchRequest

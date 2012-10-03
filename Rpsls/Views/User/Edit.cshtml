@@ -231,6 +231,29 @@
         </tr>
       </table>
       </div>
+    <div class="row">
+        <div class="span8">
+            <table class="table">
+                <tr>
+                    <th>Player</th>
+                    <th>P. Move</th>
+                    <th>Y. Move</th>
+                    <th>Result</th>
+                    <th>Date</th>
+                </tr>
+                @foreach(var match in Model.Matches)
+                {
+                    <tr>
+                        <td>@match.UserRival</td>
+                        <td><img src="/Content/Images/@match.UserRivalGesture.ToLower()_thumb.png" /></td>
+                        <td><img src="/Content/Images/@match.UserGesture.ToLower()_thumb.png" /></td>
+                        <td>@match.Result</td>
+                        <td>@match.Date</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 </div>
 
 @section PageScript {

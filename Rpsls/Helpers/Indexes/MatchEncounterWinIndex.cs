@@ -13,7 +13,7 @@ namespace Rpsls.Helpers.Indexes
 		{
 			Map = encounters => from encounter in encounters
 								where encounter.Result == Hubs.MatchResult.Win
-								select new { UserId = encounter.UserId, Gesture = encounter.UserGestureType, Count = 1 };
+								select new { UserId = encounter.User.Id, Gesture = encounter.UserGestureType, Count = 1 };
 			//select new { UserId = encounter.UserId,  Count = 0 };
 
 			Reduce = results => from result in results

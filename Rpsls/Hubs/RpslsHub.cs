@@ -117,7 +117,7 @@ namespace Rpsls.Hubs
 			if (client.Waiting)
 			{
 				Caller.addWarning(string.Format("You've a move waiting to be resolved."));
-				return; 
+				return;
 			}
 
 			var clientToSendMessage = FreeForAll.Clients.Where(x => x.Waiting && x.LastMoveResponse.HasValue && x.Id != client.Id).

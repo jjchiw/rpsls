@@ -14,6 +14,10 @@ using Nancy.Cryptography;
 using Nancy.Session;
 using Raven.Client.Indexes;
 using Rpsls.Helpers.Indexes;
+using Rpsls.Models;
+using Rpsls.Models.ViewModels;
+using AutoMapper;
+using Rpsls.Helpers;
 
 namespace Rpsls.Helpers
 {
@@ -55,6 +59,14 @@ namespace Rpsls.Helpers
 			// Here we register our user mapper as a per-request singleton.
 			// As this is now per-request we could inject a request scoped
 			// database "context" or other request scoped services.
+
+			Mapper.CreateMap<MatchEncounter, MatchEncounterView>()
+				  .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.FriendlyParse()))
+				  .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result.ToString()))
+				  .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName))
+				  .ForMember(dest => dest.UserRival, opt => opt.MapFrom(src => src.UserRival.UserName))
+				  .ForMember(dest => dest.UserGesture, opt => opt.MapFrom(src => src.UserGestureType.ToString()))
+				  .ForMember(dest => dest.UserRivalGesture, opt => opt.MapFrom(src => src.UserRivalGestureType.ToString()));
 
 			var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
 			parser.Parse();

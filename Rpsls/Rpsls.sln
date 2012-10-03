@@ -1,14 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rpsls", "Rpsls.csproj", "{FB491EE6-0492-44DD-BD83-CE467E87A25C}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7B250139-8E14-4FF1-8C5B-3DC701A2EB79}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rpsls", "Rpsls.csproj", "{FB491EE6-0492-44DD-BD83-CE467E87A25C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rpsls.Tests", "..\Rpsls.Tests\Rpsls.Tests.csproj", "{7C009745-7361-4224-B09E-6E0F36E624B7}"
 EndProject

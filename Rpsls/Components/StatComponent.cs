@@ -24,10 +24,10 @@ namespace Rpsls.Components
 				var dateTime = DateTime.UtcNow;
 				MatchEncounter m1;
 				MatchEncounter m2;
-				var u1 = session.Load<User>(results.Winner.UserId);
-				var u2 = session.Load<User>(results.Loser.UserId);
+				var winner = session.Load<User>(results.Winner.UserId);
+				var loser = session.Load<User>(results.Loser.UserId);
 
-				PrepareDataToSave(results, dateTime, u1, u2, out m1, out m2);
+				PrepareDataToSave(results, dateTime, winner, loser, out m1, out m2);
 
 				session.Store(m1);
 				session.Store(m2);
@@ -36,7 +36,7 @@ namespace Rpsls.Components
 			}
 		}
 
-		private static void PrepareDataToSave(MatchOutcome results, DateTime dateTime, User u1, User u2, out MatchEncounter m1, out MatchEncounter m2)
+		private static void PrepareDataToSave(MatchOutcome results, DateTime dateTime, User winner, User loser, out MatchEncounter m1, out MatchEncounter m2)
 		{
 			m1 = null;
 			m2 = null;
@@ -45,8 +45,8 @@ namespace Rpsls.Components
 			{
 				m1 = new MatchEncounter
 				{
-					UserId = results.Winner.UserId,
-					UserIdRival = results.Loser.UserId,
+					User = winner,
+					UserRival = loser,
 					UserGestureType = results.Winner.Gesture,
 					UserRivalGestureType = results.Loser.Gesture,
 					Result = MatchResult.Win,
@@ -55,23 +55,23 @@ namespace Rpsls.Components
 
 				m2 = new MatchEncounter
 				{
-					UserId = results.Loser.UserId,
-					UserIdRival = results.Winner.UserId,
+					User = loser,
+					UserRival = winner,
 					UserGestureType = results.Loser.Gesture,
 					UserRivalGestureType = results.Winner.Gesture,
 					Result = MatchResult.Lose,
 					Date = dateTime
 				};
 
-				u1.WinCount++;
-				u2.LostCount++;
+				winner.WinCount++;
+				loser.LostCount++;
 			}
 			else
 			{
 				m1 = new MatchEncounter
 				{
-					UserId = results.Winner.UserId,
-					UserIdRival = results.Loser.UserId,
+					User = winner,
+					UserRival = loser,
 					UserGestureType = results.Winner.Gesture,
 					UserRivalGestureType = results.Loser.Gesture,
 					Result = MatchResult.Tie,
@@ -80,16 +80,16 @@ namespace Rpsls.Components
 
 				m2 = new MatchEncounter
 				{
-					UserId = results.Loser.UserId,
-					UserIdRival = results.Winner.UserId,
+					User = loser,
+					UserRival = winner,
 					UserGestureType = results.Loser.Gesture,
 					UserRivalGestureType = results.Winner.Gesture,
 					Result = MatchResult.Tie,
 					Date = dateTime
 				};
 
-				u1.TieCount++;
-				u2.TieCount++;
+				winner.TieCount++;
+				loser.TieCount++;
 			}
 		}
 	}

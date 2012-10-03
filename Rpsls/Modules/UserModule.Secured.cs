@@ -10,6 +10,8 @@ using Rpsls.Helpers;
 using System.Web.Security;
 using Rpsls.Helpers.Indexes;
 using Rpsls.Models.ViewModels;
+using Rpsls.Tasks;
+using AutoMapper;
 
 namespace Rpsls.Modules
 {
@@ -28,6 +30,8 @@ namespace Rpsls.Modules
 				RavenSession.Store(user);
 
 				Context.CurrentUser = user;
+
+				UpdateUserDenormalizedTask.Execute(user);
 
 				return Response.AsRedirect("/User/");
 			};
@@ -63,6 +67,12 @@ namespace Rpsls.Modules
 
 
 				m.UserStats = CreateStatViewModel(winEncounters, loseEncounters, tieEncounters);
+
+				var encounters = RavenSession.Query<MatchEncounter>()
+											 .Where(x => x.User.Id == user.Id)
+											 .OrderByDescending(x => x.Date).ToList();
+
+				m.Matches = Mapper.Map<List<MatchEncounter>, List<MatchEncounterView>>(encounters);
 
 				return View["User/Edit", m];
 			};

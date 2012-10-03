@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -16,6 +17,15 @@
     <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -205,9 +218,11 @@
     <Compile Include="Components\IEngageComponent.cs" />
     <Compile Include="Components\IStatComponent.cs" />
     <Compile Include="Components\StatComponent.cs" />
+    <Compile Include="Helpers\FriendlyTimeHelper.cs" />
     <Compile Include="Helpers\GravatarExtensions.cs" />
     <Compile Include="Helpers\Indexes\MatchEncounterIndexResult.cs" />
     <Compile Include="Helpers\Indexes\MatchEncounterLoseIndex.cs" />
+    <Compile Include="Helpers\Indexes\MatchEncountersByUserId.cs" />
     <Compile Include="Helpers\Indexes\MatchEncounterTieIndex.cs" />
     <Compile Include="Helpers\Indexes\MatchEncounterWinIndex.cs" />
     <Compile Include="Hubs\MathOutcome.cs" />
@@ -225,6 +240,7 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerNumber.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModels\MatchEncounterView.cs" />
     <Compile Include="Models\ViewModels\StatsViewModel.cs" />
     <Compile Include="Models\ViewModels\UserView.cs" />
     <Compile Include="Modules\AuthModule.cs" />
@@ -233,6 +249,7 @@
     <Compile Include="Modules\RootModule.cs" />
     <Compile Include="Modules\UserModule.Secured.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\UpdateUserDenormalizedTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -245,8 +262,13 @@
   <ItemGroup>
     <Content Include="Views\Shared\GameLayout.cshtml" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
