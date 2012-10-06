@@ -12,7 +12,7 @@ namespace Rpsls.Helpers.Indexes
 		public MatchEncountersByUserId()
 		{
 			Map = encounters => from encounter in encounters
-								select new { User = encounter.UserRival.Id };
+								select new { User = encounter.User.Id, UserRival = encounter.UserRival.Id };
 		}
 
 	}

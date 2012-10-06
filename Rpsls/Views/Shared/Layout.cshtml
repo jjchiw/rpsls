@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
 	var loginCssClass = @Model.IsLoggedIn ? "hide" : "show";
 	var loggedViewCssClass = @Model.IsLoggedIn ? "show" : "hide";
 }
@@ -56,15 +57,12 @@
 			<div id="loggedinview" class="@loggedViewCssClass pull-right loggedin">
 				<ul class="nav secondary-nav">
                     <li>
-                        <p><a href="/">Play</a></p>
-                    </li>
-                    <li>
-                        <p class="navbar-text">total users: <span id="total-players">0</span></p>
+                        <p class="navbar-text"><a href="/">Play</a></p>
                     </li>
 					<li class="dropdown">
 						 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="min-width:160px;"><img id="user-gravatar" alt="Gravatar"/> <span id="username"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="/user/">Edit</a></li>
+							<li><a id="edit" href="#edit">Edit</a></li>
 							<li><a id="logout" href="#logout">Logout</a></li>
 						</ul>
 					</li> 
@@ -133,6 +131,15 @@
 
         $('#alogin').click(function () {
             loginFunc();
+        });
+
+        $('#edit').click(function (e) {
+
+            if (typeof (rpslsHubClient) != "undefined") {
+                rpslsHubClient.disconnect()
+            }
+
+            window.location = "/user/";
         });
 
         $('#logout').click(function (e) {

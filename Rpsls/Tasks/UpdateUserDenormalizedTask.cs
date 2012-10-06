@@ -67,7 +67,7 @@ namespace Rpsls.Tasks
 						new PatchRequest
 						{
 							Type = PatchCommandType.Modify,
-							Name = "User",
+							Name = "UserRival",
 							Nested = new[]
 							{
 								new PatchRequest

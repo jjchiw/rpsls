@@ -92,5 +92,28 @@ namespace Rpsls.Models.ViewModels
 		public int ScissorsTotalCount { get; set; }
 
 		public int PaperTotalCount { get; set; }
+
+		public StatsViewModel()
+		{
+			RockWinRate = 0d;
+			RockTieRate = 0d;
+			RockLoseRate = 0d;
+
+			PaperWinRate = 0d;
+			PaperTieRate = 0d;
+			PaperLoseRate = 0d;
+
+			ScissorsWinRate = 0d;
+			ScissorsTieRate = 0d;
+			ScissorsLoseRate = 0d;
+
+			LizardWinRate = 0d;
+			LizardTieRate = 0d;
+			LizardLoseRate = 0d;
+
+			SpockWinRate = 0d;
+			SpockTieRate = 0d;
+			SpockLoseRate = 0d;
+		}
 	}
 }

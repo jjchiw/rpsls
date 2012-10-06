@@ -163,12 +163,17 @@ namespace Rpsls.Hubs
 
 		public void Disconnect()
 		{
+			
 			Clients.leave(Context.ConnectionId, DateTime.Now.ToString());
 
 			var client = FreeForAll.Clients.Where(x => x.Id == Context.ConnectionId).FirstOrDefault();
 			FreeForAll.Clients.Remove(client);
 
 			Clients.totalPlayers(FreeForAll.Clients.Count);
+
+			var message = string.Format("{0} has left", client.Name);
+			Clients.addMessage(message);
+
 		}
 
 		private MatchOutcome Engage(Client clientOne, Client clientTwo)

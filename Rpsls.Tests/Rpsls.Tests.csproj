@@ -122,6 +122,7 @@
     <Compile Include="RavenIndexesTest.cs" />
     <Compile Include="RpslsModuleTest.cs" />
     <Compile Include="StatComponentTest.cs" />
+    <Compile Include="UpdateUserDenormalizedTaskTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

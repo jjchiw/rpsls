@@ -140,35 +140,57 @@ namespace Rpsls.Modules
 			result.TotalTieCount = tieEncounters.Sum(x => x.Count);
 
 			result.RockTotalCount = result.RockWinCount + result.RockLoseCount + result.RockTieCount;
-			result.RockWinRate = Math.Round((( (double)result.RockWinCount /  (double)result.RockTotalCount) * 100d), 2);
-			result.RockLoseRate = Math.Round((((double)result.RockLoseCount / (double)result.RockTotalCount) * 100d), 2);
-			result.RockTieRate = Math.Round((( (double)result.RockTieCount /  (double)result.RockTotalCount) * 100d), 2);
+
+			if (result.RockTotalCount > 0)
+			{
+				result.RockWinRate = Math.Round((((double)result.RockWinCount / (double)result.RockTotalCount) * 100d), 2);
+				result.RockLoseRate = Math.Round((((double)result.RockLoseCount / (double)result.RockTotalCount) * 100d), 2);
+				result.RockTieRate = Math.Round((((double)result.RockTieCount / (double)result.RockTotalCount) * 100d), 2); 
+			}
 
 
 			result.PaperTotalCount = result.PaperWinCount + result.PaperLoseCount + result.PaperTieCount;
-			result.PaperWinRate = Math.Round((( (double)result.PaperWinCount /  (double)result.PaperTotalCount) * 100d), 2);
-			result.PaperLoseRate = Math.Round((((double)result.PaperLoseCount / (double)result.PaperTotalCount) * 100d), 2);
-			result.PaperTieRate = Math.Round((( (double)result.PaperTieCount /  (double)result.PaperTotalCount) * 100d), 2);
+			if (result.PaperTotalCount > 0)
+			{
+				result.PaperWinRate = Math.Round((( (double)result.PaperWinCount /  (double)result.PaperTotalCount) * 100d), 2);
+				result.PaperLoseRate = Math.Round((((double)result.PaperLoseCount / (double)result.PaperTotalCount) * 100d), 2);
+				result.PaperTieRate = Math.Round((( (double)result.PaperTieCount /  (double)result.PaperTotalCount) * 100d), 2); 
+			}
 
 			result.ScissorsTotalCount = result.ScissorsWinCount + result.ScissorsLoseCount + result.ScissorsTieCount;
-			result.ScissorsWinRate = Math.Round((( (double)result.ScissorsWinCount /  (double)result.ScissorsTotalCount) * 100d), 2);
-			result.ScissorsLoseRate = Math.Round((((double)result.ScissorsLoseCount / (double)result.ScissorsTotalCount) * 100d), 2);
-			result.ScissorsTieRate = Math.Round((( (double)result.ScissorsTieCount /  (double)result.ScissorsTotalCount) * 100d), 2);
+
+			if (result.ScissorsTotalCount > 0)
+			{
+				result.ScissorsWinRate = Math.Round((((double)result.ScissorsWinCount / (double)result.ScissorsTotalCount) * 100d), 2);
+				result.ScissorsLoseRate = Math.Round((((double)result.ScissorsLoseCount / (double)result.ScissorsTotalCount) * 100d), 2);
+				result.ScissorsTieRate = Math.Round((((double)result.ScissorsTieCount / (double)result.ScissorsTotalCount) * 100d), 2); 
+			}
 
 			result.LizardTotalCount = result.LizardWinCount + result.LizardLoseCount + result.LizardTieCount;
-			result.LizardWinRate = Math.Round((( (double)result.LizardWinCount /  (double)result.LizardTotalCount) * 100d), 2);
-			result.LizardLoseRate = Math.Round((((double)result.LizardLoseCount / (double)result.LizardTotalCount) * 100d), 2);
-			result.LizardTieRate = Math.Round((( (double)result.LizardTieCount /  (double)result.LizardTotalCount) * 100d), 2);
+
+			if (result.LizardTotalCount > 0)
+			{
+				result.LizardWinRate = Math.Round((((double)result.LizardWinCount / (double)result.LizardTotalCount) * 100d), 2);
+				result.LizardLoseRate = Math.Round((((double)result.LizardLoseCount / (double)result.LizardTotalCount) * 100d), 2);
+				result.LizardTieRate = Math.Round((((double)result.LizardTieCount / (double)result.LizardTotalCount) * 100d), 2); 
+			}
 
 			result.SpockTotalCount = result.SpockWinCount + result.SpockLoseCount + result.SpockTieCount;
-			result.SpockWinRate = Math.Round((( (double)result.SpockWinCount /  (double)result.SpockTotalCount) * 100d), 2);
-			result.SpockLoseRate = Math.Round((((double)result.SpockLoseCount / (double)result.SpockTotalCount) * 100d), 2);
-			result.SpockTieRate = Math.Round((( (double)result.SpockTieCount /  (double)result.SpockTotalCount) * 100d), 2);
+
+			if (result.SpockTotalCount > 0)
+			{
+				result.SpockWinRate = Math.Round((((double)result.SpockWinCount / (double)result.SpockTotalCount) * 100d), 2);
+				result.SpockLoseRate = Math.Round((((double)result.SpockLoseCount / (double)result.SpockTotalCount) * 100d), 2);
+				result.SpockTieRate = Math.Round((((double)result.SpockTieCount / (double)result.SpockTotalCount) * 100d), 2); 
+			}
 
 			result.TotalTotalCount = result.TotalWinCount + result.TotalLoseCount + result.TotalTieCount;
-			result.TotalWinRate = Math.Round((( (double)result.TotalWinCount /  (double)result.TotalTotalCount) * 100d), 2);
-			result.TotalLoseRate = Math.Round((((double)result.TotalLoseCount / (double)result.TotalTotalCount) * 100d), 2);
-			result.TotalTieRate = Math.Round((( (double)result.TotalTieCount /  (double)result.TotalTotalCount) * 100d), 2);
+			if (result.TotalTotalCount > 0)
+			{
+				result.TotalWinRate = Math.Round((((double)result.TotalWinCount / (double)result.TotalTotalCount) * 100d), 2);
+				result.TotalLoseRate = Math.Round((((double)result.TotalLoseCount / (double)result.TotalTotalCount) * 100d), 2);
+				result.TotalTieRate = Math.Round((((double)result.TotalTieCount / (double)result.TotalTotalCount) * 100d), 2); 
+			}
 
 		
 			return result;
