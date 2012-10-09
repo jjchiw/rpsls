@@ -19,7 +19,7 @@ namespace Rpsls.Tasks.Infrastructure
 		{
 			DocumentSession = session;
 			DocumentStore = documentStore;
-			DocumentSession.Advanced.UseOptimisticConcurrency = true;
+			DocumentSession.Advanced.UseOptimisticConcurrency = false;
 		}
 
 		protected virtual void OnError(Exception e)

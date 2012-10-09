@@ -20,6 +20,8 @@ namespace Rpsls.Tasks
 		}
 
 		private User _user;
+		private List<Badge> _badges;
+		private List<MatchEncounter> _lastMaxMatches;
 
 		public AchieveBadgeTask(User user)
 		{
@@ -28,85 +30,92 @@ namespace Rpsls.Tasks
 
 		public override void Execute()
 		{
-			var winEncounters = DocumentSession.Query<MatchEncounterIndexResult, MatchEncounterWinIndex>()
+			_badges = DocumentSession.Query<Badge>().ToList();
+			_lastMaxMatches = DocumentSession.Query<MatchEncounter>()
+											 .Where(x => x.User.Id == _user.Id)
+											 .OrderByDescending(x => x.Date).Take(SeedBadges.MAX_LIMIT).ToList();
+
+			var matchEncounters = DocumentSession.Query<MatchEncounterIndexResult, MatchEncounterIndex>()
 										.Where(x => x.UserId == _user.Id).ToList();
 
-			var loseEncounters = DocumentSession.Query<MatchEncounterIndexResult, MatchEncounterLoseIndex>()
-									.Where(x => x.UserId == _user.Id).ToList();
-
-			var tieEncounters = DocumentSession.Query<MatchEncounterIndexResult, MatchEncounterTieIndex>()
-									.Where(x => x.UserId == _user.Id).ToList();
-
-			var encounters = new List<InternalMatchEncounter> 
-			{
-				new InternalMatchEncounter
-				{
-					MatchResult = Hubs.MatchResult.Win,
-					Matches = winEncounters
-				},
-				new InternalMatchEncounter
-				{
-					MatchResult = Hubs.MatchResult.Lose,
-					Matches = loseEncounters
-				},
-				new InternalMatchEncounter
-				{
-					MatchResult = Hubs.MatchResult.Tie,
-					Matches = tieEncounters
-				}
-			};
-
+			var count = 0;
 			foreach (GestureType gesture in Enum.GetValues(typeof(GestureType)))
 			{
 				if (gesture == GestureType.Empty)
 				{
-					var count = winEncounters.Sum(x => x.Count);
-
-					UpdateUserBadges(gesture, count, Hubs.MatchResult.Win);
-
-					count = loseEncounters.Sum(x => x.Count);
-
-					UpdateUserBadges(gesture, count, Hubs.MatchResult.Lose);
-
-					count = tieEncounters.Sum(x => x.Count);
-
-					UpdateUserBadges(gesture, count, Hubs.MatchResult.Tie);
+					foreach (Hubs.MatchResult matchResult in Enum.GetValues(typeof(Hubs.MatchResult)))
+					{
+						count = matchEncounters.Where(x => x.MatchResult == matchResult).Sum(x => x.Count);
+						UpdateUserBadges(gesture, count, matchResult);
+						
+					}
 				}
 				else
 				{
-					foreach (var item in encounters)
+					foreach (Hubs.MatchResult matchResult in Enum.GetValues(typeof(Hubs.MatchResult)))
 					{
-						var list = item.Matches.FirstOrDefault(x => x.Gesture == gesture);
+						var list = matchEncounters.FirstOrDefault(x => x.MatchResult == matchResult && x.Gesture == gesture);
+						
 						if (list != null)
 						{
-							var count = list.Count;
-							UpdateUserBadges(gesture, count, item.MatchResult);
+							count = list.Count;
+							UpdateUserBadges(gesture, count, list.MatchResult);
 						}
 					}
-
 				}
 			}
 
-			DocumentSession.SaveChanges();
+			UpdateStrikeRecord();
 
+			DocumentSession.Store(_user);
+		}
+
+		private void UpdateStrikeRecord()
+		{
+			foreach (var limit in SeedBadges.Limits)
+			{
+				var lastEncounters = _lastMaxMatches.Take(limit);
+
+				if (lastEncounters.Count() != limit)
+					return;
+
+				foreach (Hubs.MatchResult matchResult in Enum.GetValues(typeof(Hubs.MatchResult)))
+				{
+					foreach (GestureType gesture in Enum.GetValues(typeof(GestureType)))
+					{
+						if (lastEncounters.All(x => x.Result == matchResult 
+													&& x.UserGestureType == ( gesture == GestureType.Empty ? x.UserGestureType : gesture)))
+						{
+							var badge = _badges.FirstOrDefault(x => x.Gesture == gesture
+																		   && x.Limit == limit
+																		   && x.MathchResult == matchResult
+																		   && x.IsStrike);
+
+							if (badge != null)
+							{
+								var ownedBadge = _user.Badges.FirstOrDefault(x => x.Id == badge.Id);
+								if (ownedBadge == null)
+									_user.Badges.Add(new BadgeDenormalized<Badge> { Id = badge.Id, Name = badge.Name, Total = 1 });
+								else
+									ownedBadge.Total++;
+							}
+						}
+					}
+				}
+			}							
 		}
 
 		private void UpdateUserBadges(GestureType gesture, int winCount, Hubs.MatchResult matchResult)
 		{
-			var badges = DocumentSession.Query<Badge>()
-										.Where(x => x.Gesture == gesture
-													   && x.Limit < winCount
-													   && x.MathchResult == matchResult
-													   && !x.IsStrike)
-										   .ToList();
 
-			//var badgesNotInUser = badges.Cast<IBadgeDenormalized>().Except(_user.Badges);
+			var badgesNotInUser = _badges.Where(x => x.Gesture == gesture 
+													&& x.Limit <= winCount 
+													&& x.MathchResult == matchResult
+													&& !x.IsStrike)
+										 .Where(x => !_user.Badges.Any(y => y.Id == x.Id));
 
-			var badgesNotInUser = badges.Where(x => !_user.Badges.Any(y => y.Id == x.Id));
-
-			_user.Badges.AddRange(badgesNotInUser.Select(x => new BadgeDenormalized<Badge> {Id = x.Id, Name = x.Name, Total = 1}));
-
-			DocumentSession.Store(_user);
+			if(badgesNotInUser.Count() > 0)
+				_user.Badges.AddRange(badgesNotInUser.Select(x => new BadgeDenormalized<Badge> {Id = x.Id, Name = x.Name, Total = 1}));
 		}
 	}
 }

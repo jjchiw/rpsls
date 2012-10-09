@@ -20,8 +20,7 @@ namespace Rpsls.Modules
 			}
 		}
 
-		public RavenModule(string path)
-			: base(path)
+		public RavenModule(string path) : base(path)
 		{
 			this.Before.AddItemToEndOfPipeline(ctx =>
 			{
@@ -37,7 +36,7 @@ namespace Rpsls.Modules
 				{
 					RavenSession.SaveChanges();
 					TaskExecutor.StartExecuting();
-					//RavenSession.Dispose();
+					RavenSession.Dispose();
 				}
 
 			});

@@ -9,6 +9,7 @@ namespace Rpsls.Helpers.Indexes
 	public class MatchEncounterIndexResult
 	{
 		public string UserId { get; set; }
+		public Hubs.MatchResult MatchResult { get; set; }
 		public GestureType Gesture { get; set; }
 		public int Count { get; set; }
 	}

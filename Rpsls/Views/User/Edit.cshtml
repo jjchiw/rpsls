@@ -27,8 +27,8 @@
     </div>
 </div>
 <div class="row">
-<div class="span4">
-<table class="table">
+    <div class="span4">
+        <table class="table">
         <tr>
             <th>Move</th>
             <th>Win</th>
@@ -230,9 +230,21 @@
             </td>
         </tr>
       </table>
-      </div>
-    <div class="row">
-        <div class="span8">
+        <table class ="table">
+            <thead>
+                <th>Badge</th>
+                <th>Total</th>
+            </thead>
+            @foreach(var badge in Model.Badges)
+            {
+                <tr>
+                    <td>@badge.Name</td>
+                    <td>@badge.Total</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="span8">
             <table class="table">
                 <tr>
                     <th>Player</th>
@@ -253,7 +265,6 @@
                 }
             </table>
         </div>
-    </div>
 </div>
 
 @section PageScript {

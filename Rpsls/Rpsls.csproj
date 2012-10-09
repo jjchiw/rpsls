@@ -221,10 +221,8 @@
     <Compile Include="Helpers\FriendlyTimeHelper.cs" />
     <Compile Include="Helpers\GravatarExtensions.cs" />
     <Compile Include="Helpers\Indexes\MatchEncounterIndexResult.cs" />
-    <Compile Include="Helpers\Indexes\MatchEncounterLoseIndex.cs" />
+    <Compile Include="Helpers\Indexes\MatchEncounterIndex.cs" />
     <Compile Include="Helpers\Indexes\MatchEncountersByUserId.cs" />
-    <Compile Include="Helpers\Indexes\MatchEncounterTieIndex.cs" />
-    <Compile Include="Helpers\Indexes\MatchEncounterWinIndex.cs" />
     <Compile Include="Hubs\MathOutcome.cs" />
     <Compile Include="Helpers\ModuleExtensions.cs" />
     <Compile Include="Helpers\RpslsBootStrapper.cs" />

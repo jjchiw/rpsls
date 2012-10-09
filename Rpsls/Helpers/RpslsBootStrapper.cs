@@ -44,6 +44,24 @@ namespace Rpsls.Helpers
 		protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
 		{
 			CookieBasedSessions.Enable(pipelines);
+
+
+			Mapper.CreateMap<MatchEncounter, MatchEncounterView>()
+				  .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.FriendlyParse()))
+				  .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result.ToString()))
+				  .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName))
+				  .ForMember(dest => dest.UserRival, opt => opt.MapFrom(src => src.UserRival.UserName))
+				  .ForMember(dest => dest.UserGesture, opt => opt.MapFrom(src => src.UserGestureType.ToString()))
+				  .ForMember(dest => dest.UserRivalGesture, opt => opt.MapFrom(src => src.UserRivalGestureType.ToString()));
+
+			var documentStore = ConfigureInitializeDocumentStore();
+
+			IndexCreation.CreateIndexes(typeof(MatchEncounterIndex).Assembly, documentStore);
+			IndexCreation.CreateIndexes(typeof(MatchEncountersByUserId).Assembly, documentStore);
+
+			SeedBadges.Execute(documentStore);
+
+			documentStore.Dispose();
 		}
 
 		protected override void ConfigureApplicationContainer(TinyIoC.TinyIoCContainer container)
@@ -61,14 +79,16 @@ namespace Rpsls.Helpers
 			// As this is now per-request we could inject a request scoped
 			// database "context" or other request scoped services.
 
-			Mapper.CreateMap<MatchEncounter, MatchEncounterView>()
-				  .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.FriendlyParse()))
-				  .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result.ToString()))
-				  .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName))
-				  .ForMember(dest => dest.UserRival, opt => opt.MapFrom(src => src.UserRival.UserName))
-				  .ForMember(dest => dest.UserGesture, opt => opt.MapFrom(src => src.UserGestureType.ToString()))
-				  .ForMember(dest => dest.UserRivalGesture, opt => opt.MapFrom(src => src.UserRivalGestureType.ToString()));
+			var documentStore = ConfigureInitializeDocumentStore();
 
+			container.Register<IDocumentStore>(documentStore);
+			container.Register<IUserMapper, UserMapper>();
+
+			context.Items["RavenDocumentStore"] = documentStore;
+		}
+
+		private IDocumentStore ConfigureInitializeDocumentStore()
+		{
 			var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
 			parser.Parse();
 
@@ -79,20 +99,8 @@ namespace Rpsls.Helpers
 			};
 
 			documentStore.Initialize();
-			
 
-			IndexCreation.CreateIndexes(typeof(MatchEncounterLoseIndex).Assembly, documentStore);
-			IndexCreation.CreateIndexes(typeof(MatchEncounterWinIndex).Assembly, documentStore);
-			IndexCreation.CreateIndexes(typeof(MatchEncounterTieIndex).Assembly, documentStore);
-
-			container.Register<IDocumentStore>(documentStore);
-			container.Register<IUserMapper, UserMapper>();
-
-			context.Items["RavenDocumentStore"] = documentStore;
-
-			//SeedBadges.Execute(documentStore);
-
-			//context.Items["RavenTaskDocumentStore"] = taskDocumentStore;
+			return documentStore;
 		}
 
 
