@@ -12,6 +12,7 @@ using Rpsls.Helpers.Indexes;
 using Rpsls.Models.ViewModels;
 using Rpsls.Tasks;
 using AutoMapper;
+using Rpsls.Tasks.Infrastructure;
 
 namespace Rpsls.Modules
 {
@@ -31,7 +32,9 @@ namespace Rpsls.Modules
 
 				Context.CurrentUser = user;
 
-				UpdateUserDenormalizedTask.Execute(user);
+				//UpdateUserDenormalizedTask.Execute(user);
+
+				TaskExecutor.ExecuteLater(new UpdateUserDenormalizedTask(user));
 
 				return Response.AsRedirect("/User/");
 			};

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Nancy;
 using Raven.Client;
+using Rpsls.Tasks.Infrastructure;
 
 namespace Rpsls.Modules
 {
@@ -25,7 +26,7 @@ namespace Rpsls.Modules
 			this.Before.AddItemToEndOfPipeline(ctx =>
 			{
 				RavenSession = RavenDocumentStore.OpenSession();
-
+				//TaskExecutor.DocumentStore = Context.Items["RavenTaskDocumentStore"] as IDocumentStore; //RavenDocumentStore;
 
 				return null;
 			});
@@ -35,7 +36,8 @@ namespace Rpsls.Modules
 				if (RavenSession != null)
 				{
 					RavenSession.SaveChanges();
-					RavenSession.Dispose();
+					TaskExecutor.StartExecuting();
+					//RavenSession.Dispose();
 				}
 
 			});

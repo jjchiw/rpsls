@@ -11,6 +11,8 @@ using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using System.Threading.Tasks;
 using Raven.Client;
+using Rpsls.Tasks.Infrastructure;
+using Rpsls.Tasks;
 
 namespace Rpsls.Hubs
 {
@@ -128,6 +130,15 @@ namespace Rpsls.Hubs
 				Caller.moveAcceptedToPlay(lastMove);
 				client.LastMove = lastMove;
 				var outcome = Engage(client, clientToSendMessage);
+
+				using (var session = _store.OpenSession())
+				{
+					TaskExecutor.ExecuteLater(new AchieveBadgeTask(session.Load<User>(client.UserId)));
+					TaskExecutor.ExecuteLater(new AchieveBadgeTask(session.Load<User>(clientToSendMessage.UserId)));
+				}
+
+				TaskExecutor.StartExecuting();
+				
 
 				if (outcome.Winner == null)
 				{

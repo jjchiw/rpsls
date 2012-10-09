@@ -7,88 +7,81 @@ using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using System.Threading;
 using Rpsls.Models;
+using Rpsls.Tasks.Infrastructure;
 
 namespace Rpsls.Tasks
 {
-	public class UpdateUserDenormalizedTask
+	public class UpdateUserDenormalizedTask : BackgroundTask
 	{
-		public static void Execute(User user)
+		private User _user;
+
+		public UpdateUserDenormalizedTask(User user)
 		{
-			Task.Factory.StartNew(() => {
+			_user = user;
+		}
 
-				var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
-				parser.Parse();
-
-				var documentStore = new DocumentStore
+		public override void Execute()
+		{
+			DocumentStore.DatabaseCommands.UpdateByIndex("MatchEncountersByUserId",
+				new IndexQuery
 				{
-					ApiKey = parser.ConnectionStringOptions.ApiKey,
-					Url = parser.ConnectionStringOptions.Url
-				};
-
-				documentStore.Initialize();
-
-
-				documentStore.DatabaseCommands.UpdateByIndex("MatchEncountersByUserId",
-					new IndexQuery
+					Query = String.Format("User:{0}", _user.Id)
+				}, new[]
+				{
+					new PatchRequest
 					{
-						Query = String.Format("User:{0}", user.Id)
-					}, new[]
-					{
-						new PatchRequest
+						Type = PatchCommandType.Modify,
+						Name = "User",
+						Nested = new[]
 						{
-							Type = PatchCommandType.Modify,
-							Name = "User",
-							Nested = new[]
+							new PatchRequest
 							{
-								new PatchRequest
-								{
-									Type = PatchCommandType.Set,
-									Name = "UserName",
-									Value = user.UserName,
-								},
-								new PatchRequest
-								{
-									Type = PatchCommandType.Set,
-									Name = "Email",
-									Value = user.Email,
-								},
-							}
+								Type = PatchCommandType.Set,
+								Name = "UserName",
+								Value = _user.UserName,
+							},
+							new PatchRequest
+							{
+								Type = PatchCommandType.Set,
+								Name = "Email",
+								Value = _user.Email,
+							},
 						}
-					},
-					allowStale: true);
+					}
+				},
+				allowStale: true);
 
 
-				documentStore.DatabaseCommands.UpdateByIndex("MatchEncountersByUserId",
-					new IndexQuery
+			DocumentStore.DatabaseCommands.UpdateByIndex("MatchEncountersByUserId",
+				new IndexQuery
+				{
+					Query = String.Format("UserRival:{0}", _user.Id)
+				}, new[]
+				{
+					new PatchRequest
 					{
-						Query = String.Format("UserRival:{0}", user.Id)
-					}, new[]
-					{
-						new PatchRequest
+						Type = PatchCommandType.Modify,
+						Name = "UserRival",
+						Nested = new[]
 						{
-							Type = PatchCommandType.Modify,
-							Name = "UserRival",
-							Nested = new[]
+							new PatchRequest
 							{
-								new PatchRequest
-								{
-									Type = PatchCommandType.Set,
-									Name = "UserName",
-									Value = user.UserName,
-								},
-								new PatchRequest
-								{
-									Type = PatchCommandType.Set,
-									Name = "Email",
-									Value = user.Email,
-								},
-							}
+								Type = PatchCommandType.Set,
+								Name = "UserName",
+								Value = _user.UserName,
+							},
+							new PatchRequest
+							{
+								Type = PatchCommandType.Set,
+								Name = "Email",
+								Value = _user.Email,
+							},
 						}
-					},
-					allowStale: true);
-			});
+					}
+				},
+				allowStale: true);
+		
 
-			Thread.Sleep(100);
 		}
 	}
 }

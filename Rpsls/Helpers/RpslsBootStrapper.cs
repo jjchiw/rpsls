@@ -18,6 +18,7 @@ using Rpsls.Models;
 using Rpsls.Models.ViewModels;
 using AutoMapper;
 using Rpsls.Helpers;
+using Rpsls.Tasks;
 
 namespace Rpsls.Helpers
 {
@@ -78,6 +79,7 @@ namespace Rpsls.Helpers
 			};
 
 			documentStore.Initialize();
+			
 
 			IndexCreation.CreateIndexes(typeof(MatchEncounterLoseIndex).Assembly, documentStore);
 			IndexCreation.CreateIndexes(typeof(MatchEncounterWinIndex).Assembly, documentStore);
@@ -87,6 +89,10 @@ namespace Rpsls.Helpers
 			container.Register<IUserMapper, UserMapper>();
 
 			context.Items["RavenDocumentStore"] = documentStore;
+
+			//SeedBadges.Execute(documentStore);
+
+			//context.Items["RavenTaskDocumentStore"] = taskDocumentStore;
 		}
 
 

@@ -19,11 +19,18 @@ namespace Rpsls.Models
 
 		public string Token { get; set; }
 
+		public List<BadgeDenormalized<Badge>> Badges { get; set; }
+
 		#region IUserIdentity Members
 
 		public string UserName { get; set; }
 		public IEnumerable<string> Claims { get; set; }
 
 		#endregion
+
+		public User()
+		{
+			Badges = new List<BadgeDenormalized<Badge>>();
+		}
 	}
 }
