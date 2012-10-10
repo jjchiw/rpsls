@@ -9,6 +9,7 @@ namespace Rpsls.Models.ViewModels
 	{
 		public string User { get; set; }
 		public string UserRival { get; set; }
+		public string UserRivalId { get; set; }
 		public string UserGesture { get; set; }
 		public string UserRivalGesture { get; set; }
 		public string Result { get; set; }

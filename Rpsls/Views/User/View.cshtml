@@ -5,27 +5,7 @@
     Layout = "Views/Shared/Layout.cshtml";
 }
 
-<div class="row">
-    <div class="span10">
-        <h2>Edit</h2>
-        <form action="/users" method="post">
-		<div class="clearfix">
-            <h3>Account</h3>
-        </div>
-        <div class="clearfix" id="user-data">
-			<label for="Username">Username</label>
-			<div class="input">
-                <input id="username" name="Username" type="text" value="@Model.UserName"/> <input type="submit" class="btn btn-primary" value="save"/>
-            </div>
-            <label for="Username">Token</label>
-            <div class="input">
-                <label id="token-label">@Model.Token</label>
-                <a id="generate-token" href="#" class="btn btn-info">Generate Token</a>
-            </div>
-        </div>
-        </form>
-    </div>
-</div>
+<h1><img id="user-view-gravatar" alt="Gravatar"/> @Model.User.UserName</h1>
 <div class="row">
     <div class="span4">
         <table class="table">
@@ -270,5 +250,11 @@
 </div>
 
 @section PageScript {
-	<script type="text/javascript" src="/Content/js/specific/user.edit.js"></script>
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	        var iurl = 'http://www.gravatar.com/avatar/' + Crypto.MD5($.trim("@Model.User.Email").toLowerCase()) + "?s=40";
+	        $("#user-view-gravatar").attr("src", iurl);
+	    });
+
+	</script>
 }

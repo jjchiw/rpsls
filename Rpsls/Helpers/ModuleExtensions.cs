@@ -6,6 +6,8 @@ using Nancy;
 using System.Dynamic;
 using Nancy.Authentication.Forms;
 using Rpsls.Models;
+using Rpsls.Helpers.Indexes;
+using Rpsls.Models.ViewModels;
 
 namespace Rpsls.Helpers
 {
@@ -50,6 +52,43 @@ namespace Rpsls.Helpers
 			model.MyPathsActive = "";
 			model.AboutActive = "";
 			return model;
+		}
+
+		public static StatsViewModel CreateStatViewModel(this NancyModule module, List<MatchEncounterIndexResult> matchEncounters)
+		{
+			//var result = new StatsViewModel();
+
+			dynamic expando = new ExpandoObject();
+			var dict = expando as IDictionary<string, object>;
+
+			var key = "";
+			foreach (GestureType gestureType in Enum.GetValues(typeof(GestureType)))
+			{
+				if (gestureType == GestureType.Empty)
+				{
+					foreach (Hubs.MatchResult matchResult in Enum.GetValues(typeof(Hubs.MatchResult)))
+					{
+						key = String.Format("Total{0}Count", matchResult);
+						dict.Add(key, 0);
+						if (matchEncounters.Any(x => x.Gesture == gestureType))
+							dict[key] = matchEncounters.Where(x => x.MatchResult == matchResult).Sum(x => x.Count);
+					}
+
+					continue;
+				}
+
+				foreach (Hubs.MatchResult matchResult in Enum.GetValues(typeof(Hubs.MatchResult)))
+				{
+					key = String.Format("{0}{1}Count", gestureType, matchResult);
+					dict.Add(key, 0);
+					if (matchEncounters.Any(x => x.Gesture == gestureType && x.MatchResult == matchResult))
+						dict[key] = matchEncounters.First(x => x.Gesture == gestureType && x.MatchResult == matchResult).Count;
+				}
+			}
+
+			var result = new StatsViewModel(expando);
+
+			return result;
 		}
 	}
 }

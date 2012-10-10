@@ -17,9 +17,9 @@ using System.Dynamic;
 
 namespace Rpsls.Modules
 {
-	public class UserModule : RavenModule
+	public class UserModuleSecured : RavenModule
 	{
-		public UserModule() : base("user")
+		public UserModuleSecured() : base("users")
 		{
 			this.RequiresAuthentication();
 
@@ -35,7 +35,7 @@ namespace Rpsls.Modules
 
 				TaskExecutor.ExecuteLater(new UpdateUserDenormalizedTask(user));
 
-				return Response.AsRedirect("/User/");
+				return Response.AsRedirect("/users/");
 			};
 
             Post["/token"] = parameter =>
@@ -62,7 +62,7 @@ namespace Rpsls.Modules
 										.Where(x => x.UserId == user.Id).ToList();
 
 
-				m.UserStats = CreateStatViewModel(matchEncounters);
+				m.UserStats = this.CreateStatViewModel(matchEncounters);
 
 				var encounters = RavenSession.Query<MatchEncounter>()
 											 .Where(x => x.User.Id == user.Id)
@@ -74,48 +74,41 @@ namespace Rpsls.Modules
 				return View["User/Edit", m];
 			};
 
+			Get["/{id}"] = parameters =>
+			{
+				var userId = String.Format("{0}/{1}", this.ModulePath, parameters.id.Value as string);
+
+				var authUser = (Context.CurrentUser as User);
+				if(userId == authUser.Id)
+					return Response.AsRedirect("/users/");
+
+				var user = RavenSession.Load<User>(userId);
+
+				var m = Context.Model("View User");
+
+
+				var matchEncounters = RavenSession.Query<MatchEncounterIndexResult, MatchEncounterIndex>()
+										.Where(x => x.UserId == user.Id).ToList();
+
+
+				m.UserStats = this.CreateStatViewModel(matchEncounters);
+
+				var encounters = RavenSession.Query<MatchEncounter>()
+											 .Where(x => x.User.Id == user.Id)
+											 .OrderByDescending(x => x.Date).ToList();
+
+				m.Matches = Mapper.Map<List<MatchEncounter>, List<MatchEncounterView>>(encounters);
+				m.Badges = user.Badges.ToList();
+				m.User = Mapper.Map<User, UserView>(user);
+
+				return View["User/View", m];
+			};
+
 			Get[".json"] = parameter =>
 			{
 				var m = Context.Model("Edit User");
 				return Response.AsJson(new { m });
 			};
-		}
-
-		private  StatsViewModel CreateStatViewModel(List<MatchEncounterIndexResult> matchEncounters)
-		{
-			//var result = new StatsViewModel();
-
-			dynamic expando = new ExpandoObject();
-			var dict = expando as IDictionary<string, object>;
-
-			var key = "";
-			foreach (GestureType gestureType in Enum.GetValues(typeof(GestureType)))
-			{
-				if (gestureType == GestureType.Empty)
-				{
-					foreach (Hubs.MatchResult matchResult in Enum.GetValues(typeof(Hubs.MatchResult)))
-					{
-						key = String.Format("Total{0}Count", matchResult);
-						dict.Add(key, 0);
-						if (matchEncounters.Any(x => x.Gesture == gestureType))
-							dict[key] = matchEncounters.Where(x => x.MatchResult == matchResult).Sum(x => x.Count);
-					}
-
-					continue;
-				}
-
-				foreach (Hubs.MatchResult matchResult in Enum.GetValues(typeof(Hubs.MatchResult)))
-				{
-					key = String.Format("{0}{1}Count", gestureType, matchResult);
-					dict.Add(key, 0);
-					if (matchEncounters.Any(x => x.Gesture == gestureType && x.MatchResult == matchResult))
-						dict[key] = matchEncounters.First(x => x.Gesture == gestureType && x.MatchResult == matchResult).Count;
-				}
-			}
-
-			var result = new StatsViewModel(expando);
-		
-			return result;
 		}
 	}
 }

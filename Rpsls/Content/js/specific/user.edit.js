@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     
     $("#generate-token").click(function () {
-        var url = "/user/token";
+        var url = "/users/token";
 
         $.post(url, function (data) {
 

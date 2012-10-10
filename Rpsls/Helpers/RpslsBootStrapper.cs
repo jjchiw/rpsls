@@ -52,7 +52,11 @@ namespace Rpsls.Helpers
 				  .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName))
 				  .ForMember(dest => dest.UserRival, opt => opt.MapFrom(src => src.UserRival.UserName))
 				  .ForMember(dest => dest.UserGesture, opt => opt.MapFrom(src => src.UserGestureType.ToString()))
-				  .ForMember(dest => dest.UserRivalGesture, opt => opt.MapFrom(src => src.UserRivalGestureType.ToString()));
+				  .ForMember(dest => dest.UserRivalGesture, opt => opt.MapFrom(src => src.UserRivalGestureType.ToString()))
+				  .ForMember(dest => dest.UserRivalId, opt => opt.MapFrom(src => src.UserRival.Id));
+
+			Mapper.CreateMap<User, UserView>()
+				  .ForMember(dest => dest.Token, opt => opt.Ignore());
 
 			var documentStore = ConfigureInitializeDocumentStore();
 
