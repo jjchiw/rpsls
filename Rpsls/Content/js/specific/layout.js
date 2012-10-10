@@ -38,7 +38,7 @@ function loggedIn(email) {
 	setSession(email);
 	$('#login').toggleClass().removeClass('show').addClass('hide');
 	$('#loggedinview').removeClass('hide').addClass('show');
-	setDisplayStyle(email);
+	    (email);
 }
 
 function setDisplayStyle(email, username) {

@@ -19,8 +19,10 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Scissors Cuts " + p2.Name + "'s Paper. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Scissors Cuts " + p2.Name + "'s Paper. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Paper covers rock
@@ -32,8 +34,10 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Paper Covers " + p2.Name + "'s Rock. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Paper Covers " + p2.Name + "'s Rock. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 		
 		//Rock crushes lizard
@@ -45,8 +49,10 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Rock Crushes " + p2.Name + "'s Lizard. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Rock Crushes " + p2.Name + "'s Lizard. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Lizard poisons Spock
@@ -58,8 +64,10 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Lizard Poisons " + p2.Name + "'s Spock. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Lizard Poisons " + p2.Name + "'s Spock. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Spock smashes scissors
@@ -71,8 +79,10 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Spock Smashes " + p2.Name + "'s Scissors. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Spock Smashes " + p2.Name + "'s Scissors. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Scissors decapitates lizard
@@ -84,8 +94,10 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Scissors Decapites " + p2.Name + "'s Lizard. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Scissors Decapites " + p2.Name + "'s Lizard. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Lizard eats paper
@@ -96,9 +108,10 @@ namespace Rpsls.Tests
 			var p2 = new Client { Name = "illya", LastMove = "Paper" };
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
+			var result = GenerateWinnerLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Lizard Eats " + p2.Name + "'s Paper. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Lizard Eats " + p2.Name + "'s Paper. You Lost.");
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Paper disproves Spock
@@ -110,8 +123,10 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Paper Disproves " + p2.Name + "'s Spock. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Paper Disproves " + p2.Name + "'s Spock. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Spock vaporizes rock
@@ -123,35 +138,74 @@ namespace Rpsls.Tests
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Spock Vaporizes " + p2.Name + "'s Rock. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Spock Vaporizes " + p2.Name + "'s Rock. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Rock crushes scissors
 		[Fact]
 		public void Rock_Crushes_Scissors()
 		{
-			var p = new Client { Name = "ukua", LastMove = "Rock" };
-			var p2 = new Client { Name = "illya", LastMove = "Scissors" };
+			var p = new Client { UserId = "/users/1",  Name = "ukua", LastMove = "Rock" };
+			var p2 = new Client { UserId = "/users/2",  Name = "illya", LastMove = "Scissors" };
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Rock Crushes " + p2.Name + "'s Scissors. You Win.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Rock Crushes " + p2.Name + "'s Scissors. You Lost.");
+			var result = GenerateWinnerLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, result[0]);
+			Assert.Equal(s.LoserLegend, result[1]);
 		}
 
 		//Rock Ties Rock
 		[Fact]
 		public void Rock_Ties_Rock()
 		{
-			var p = new Client { Name = "ukua", LastMove = "Rock" };
-			var p2 = new Client { Name = "illya", LastMove = "Rock" };
+			var p = new Client {  UserId = "/users/1", Name = "ukua", LastMove = "Rock" };
+			var p2 = new Client { UserId = "/users/2", Name = "illya", LastMove = "Rock" };
 
 			var s = WinnerLoserLengendGenerator.GenerateLegend(p, p2);
 
-			Assert.Equal(s.WinnerLegend, p.Name + "'s Rock Ties " + p2.Name + "'s Rock.");
-			Assert.Equal(s.LoserLegend, p.Name + "'s Rock Ties " + p2.Name + "'s Rock.");
+			var strings = GenerateTiesLegend(p, p2);
+
+			Assert.Equal(s.WinnerLegend, strings[0]);
+			Assert.Equal(s.LoserLegend, strings[1]);
 		}
+
+		public static string[] GenerateTiesLegend(Client one, Client two)
+		{
+			return new string[]
+			{
+				String.Format("<a href='{0}' target='_blank'>{1}</a>'s {2} {3} <a href='{4}' target='_blank'>{5}</a>'s {6}.", one.UserId, one.Name, one.LastMove, "Ties", two.UserId, two.Name, two.LastMove),
+				String.Format("<a href='{0}' target='_blank'>{1}</a>'s {2} {3} <a href='{4}' target='_blank'>{5}</a>'s {6}.", one.UserId, one.Name, one.LastMove, "Ties", two.UserId, two.Name, two.LastMove)
+			};
+		}
+
+		public static string[] GenerateWinnerLegend(Client winner, Client loser)
+		{
+			var key = winner.LastMove + "+" + loser.LastMove;
+			var legend = String.Format("<a href='{0}' target='_blank'>{1}</a>'s {2} {3} <a href='{4}' target='_blank'>{5}</a>'s {6}.", winner.UserId, winner.Name, winner.LastMove, verbs[key], loser.UserId, loser.Name, loser.LastMove);
+
+			return new string[]
+			{
+				String.Format("{0} You Win.", legend),
+				String.Format("{0} You Lost.", legend)
+			};
+		}
+
+		private static Dictionary<string, string> verbs = new Dictionary<string, string> { { "Scissors+Paper" , "Cuts" },
+																					{ "Paper+Rock", "Covers"},
+																					{ "Rock+Lizard", "Crushes"},
+																					{ "Lizard+Spock", "Poisons"},
+																					{ "Spock+Scissors", "Smashes"},
+																					{ "Scissors+Lizard", "Decapites"},
+																					{ "Lizard+Paper", "Eats"},
+																					{ "Paper+Spock", "Disproves"},
+																					{ "Spock+Rock", "Vaporizes"},
+																					{ "Rock+Scissors", "Crushes"},
+																				  };
 
 		
 	}

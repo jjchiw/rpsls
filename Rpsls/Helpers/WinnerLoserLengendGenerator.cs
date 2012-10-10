@@ -28,11 +28,11 @@ namespace Rpsls.Helpers
 			var tie = !verbs.ContainsKey(key);
 			if (tie)
 			{
-				legend = String.Format("{0}'s {1} {2} {3}'s {4}.", winner.Name, winner.LastMove, "Ties", loser.Name, loser.LastMove);
+				legend = String.Format("<a href='{0}' target='_blank'>{1}</a>'s {2} {3} <a href='{4}' target='_blank'>{5}</a>'s {6}.", winner.UserId, winner.Name, winner.LastMove, "Ties", loser.UserId, loser.Name, loser.LastMove);
 			}
 			else
 			{
-				legend = String.Format("{0}'s {1} {2} {3}'s {4}.", winner.Name, winner.LastMove, verbs[key], loser.Name, loser.LastMove);
+				legend = String.Format("<a href='{0}' target='_blank'>{1}</a>'s {2} {3} <a href='{4}' target='_blank'>{5}</a>'s {6}.", winner.UserId, winner.Name, winner.LastMove, verbs[key], loser.UserId, loser.Name, loser.LastMove);
 			}
 
 			return new WinnerLoserLegend(legend, tie);

@@ -52,10 +52,12 @@ namespace Rpsls.Hubs
 
 		public void Join(string playerName, string email)
 		{
+			Client client = null;
+
 			using (var session = _store.OpenSession())
 			{
 				var user = session.Query<User>().FirstOrDefault(x => x.Email == email);
-
+				
 				if (user == null)
 				{
 					session.Store(user);
@@ -64,7 +66,7 @@ namespace Rpsls.Hubs
 
 				if (FreeForAll.Clients.Where(x => x.Name.Equals(playerName)).Count().Equals(0))
 				{
-					var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId, UserId = user.Id };
+					client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId, UserId = user.Id };
 					FreeForAll.Clients.Add(client);
 					Caller.Name = playerName;
 				}
@@ -74,15 +76,15 @@ namespace Rpsls.Hubs
 					if (clientIndex != null)
 					{
 						FreeForAll.Clients.RemoveAt(clientIndex.Index);
-						var client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId, UserId = user.Id };
+						client = new Client() { Name = playerName, LastMoveResponse = null, LastMove = "", Waiting = false, Id = Context.ConnectionId, UserId = user.Id };
 						FreeForAll.Clients.Add(client);
 						Caller.Name = playerName;
 					}
 				}
 			}
 
-			
-			var message = string.Format("{0} entered to play", playerName);
+
+			var message = string.Format("<a href='{0}' target='_blank'>{1}</a> entered to play", client.UserId, playerName);
 			Clients.addMessage(message);
 
 			var clientToSendMessage = FreeForAll.Clients.Where(x => x.Waiting && x.LastMoveResponse.HasValue && x.Id != Context.ConnectionId).
@@ -90,7 +92,7 @@ namespace Rpsls.Hubs
 
 			if (clientToSendMessage != null)
 			{
-				message = string.Format("{0} is waiting for a move.", clientToSendMessage.Name);
+				message = string.Format("<a href='{0}' target='_blank'>{1}</a> is waiting for a move.", clientToSendMessage.UserId, clientToSendMessage.Name);
 				Caller.addMessage(message);
 			}
 
@@ -166,7 +168,7 @@ namespace Rpsls.Hubs
 
 			Caller.moveAccepted(lastMove);
 			Caller.addMessage(string.Format("your move: {0}. Waiting for player", lastMove));
-			Clients.addMessage(string.Format("{0}, made a move", client.Name));
+			Clients.addMessage(string.Format("<a href='{0}' target='_blank'>{1}</a>, made a move", client.UserId, client.Name));
 
 		}
 
@@ -180,7 +182,7 @@ namespace Rpsls.Hubs
 
 			Clients.totalPlayers(FreeForAll.Clients.Count);
 
-			var message = string.Format("{0} has left", client.Name);
+			var message = string.Format("<a href='{0}' target='_blank'>{1}</a> has left", client.UserId, client.Name);
 			Clients.addMessage(message);
 
 		}
