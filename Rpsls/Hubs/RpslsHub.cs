@@ -19,7 +19,7 @@ namespace Rpsls.Hubs
 	[HubName("rpslsHub")]
 	public class RpslsHub : Hub
 	{
-		private readonly int TimeoutInSeconds = 30;
+		//private readonly int TimeoutInSeconds = 30;
 		private readonly FreeForAll _freeForAll;
 		private readonly IEngageComponent _engageComponent;
 		private readonly IStatComponent _statComponent;
@@ -78,8 +78,6 @@ namespace Rpsls.Hubs
 						FreeForAll.Clients.Add(client);
 						Caller.Name = playerName;
 					}
-
-					//throw new Exception("This login is already in use");
 				}
 			}
 

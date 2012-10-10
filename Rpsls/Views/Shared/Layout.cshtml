@@ -110,8 +110,8 @@
 	    } (document, 'script'));
 	</script>
 
-<script language="javascript" src="/Content/js/specific/layout.js"></script>
-<script language="javascript">
+<script type="text/javascript" src="/Content/js/specific/layout.js"></script>
+<script type="text/javascript">
     $(document).ready(function () {
 
         var loginFunc = function () {
@@ -125,7 +125,8 @@
             setDisplayStyle("@Model.Email", "@Model.UserName");
         }
 
-        $('#login').click(function () {
+        $('#login').click(function (e) {
+            e.preventDefault();
             loginFunc();
         });
 

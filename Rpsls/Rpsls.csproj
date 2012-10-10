@@ -151,6 +151,7 @@
     <Content Include="Content\js\libs\modernizr-2.5.3-respond-1.1.0.min.js" />
     <Content Include="Content\js\libs\mustache.js" />
     <Content Include="Content\js\script.js" />
+    <Content Include="Content\js\specific\game-signalr.js" />
     <Content Include="Content\js\specific\layout.js" />
     <Content Include="Content\js\specific\user.edit.js" />
     <Content Include="Content\less\img\calabaza.png" />
