@@ -26,6 +26,8 @@ namespace Rpsls.Models
 		public string UserName { get; set; }
 		public IEnumerable<string> Claims { get; set; }
 
+		public int StrikeCount { get; set; }
+
 		#endregion
 
 		public User()

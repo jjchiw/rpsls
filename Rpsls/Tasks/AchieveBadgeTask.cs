@@ -65,9 +65,29 @@ namespace Rpsls.Tasks
 				}
 			}
 
-			UpdateStrikeRecord();
+			
+			if(UserIsOnStrike())
+				UpdateStrikeRecord();
 
 			DocumentSession.Store(_user);
+		}
+
+		private bool UserIsOnStrike()
+		{
+			var lastEncounters = _lastMaxMatches.Take(2).ToList();
+
+			if (lastEncounters.Count() != 2)
+			{
+				_user.StrikeCount++;
+				return false;
+			}
+				
+
+			if (lastEncounters[0].Result == lastEncounters[1].Result)
+				_user.StrikeCount++;
+
+			return _user.StrikeCount % 10 == 0;
+
 		}
 
 		private void UpdateStrikeRecord()
@@ -102,6 +122,7 @@ namespace Rpsls.Tasks
 						}
 					}
 				}
+				_user.StrikeCount = 0;
 			}							
 		}
 
@@ -109,7 +130,7 @@ namespace Rpsls.Tasks
 		{
 
 			var badgesNotInUser = _badges.Where(x => x.Gesture == gesture 
-													&& x.Limit <= winCount 
+													&& x.Limit == winCount 
 													&& x.MathchResult == matchResult
 													&& !x.IsStrike)
 										 .Where(x => !_user.Badges.Any(y => y.Id == x.Id));
